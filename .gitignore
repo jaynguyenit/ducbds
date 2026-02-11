@@ -1,0 +1,12 @@
+# Ignore everything in root
+/*
+
+# Un-ignore necessary directories/files
+!/themes
+!.gitignore
+
+# Ignore everything inside themes
+/themes/*
+
+# Un-ignore duc-bds theme
+!/themes/duc-bds
