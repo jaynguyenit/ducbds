@@ -101,12 +101,13 @@ if ($is_compact) {
                         <div class="relative flex-shrink-0">
                             <select name="khoang-gia" class="appearance-none border rounded-full pl-2.5 pr-6 md:pl-3 md:pr-7 py-1.5 md:py-2 text-[12px] md:text-sm font-medium focus:outline-none focus:border-primary transition cursor-pointer min-w-[95px] md:min-w-[120px] <?php echo $gia_bg; ?>">
                                 <option value="">Khoảng giá</option>
-                                <option value="0-500" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '0-500') ? 'selected' : ''; ?>>Dưới 500tr</option>
-                                <option value="500-1000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500-1000') ? 'selected' : ''; ?>>500 - 1 tỷ</option>
                                 <option value="1000-3000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '1000-3000') ? 'selected' : ''; ?>>1 - 3 tỷ</option>
                                 <option value="3000-5000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '3000-5000') ? 'selected' : ''; ?>>3 - 5 tỷ</option>
                                 <option value="5000-10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '5000-10000') ? 'selected' : ''; ?>>5 - 10 tỷ</option>
-                                <option value="10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000') ? 'selected' : ''; ?>>Trên 10 tỷ</option>
+                                <option value="10000-50000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000-50000') ? 'selected' : ''; ?>>10 - 50 tỷ</option>
+                                <option value="50000-100000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '50000-100000') ? 'selected' : ''; ?>>50 - 100 tỷ</option>
+                                <option value="500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500000') ? 'selected' : ''; ?>>Dưới 500 tỷ</option>
+                                <option value=">500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '>500000') ? 'selected' : ''; ?>>Trên 500 tỷ</option>
                             </select>
                             <svg class="w-3 h-3 md:w-4 h-4 absolute right-2 md:right-3 top-1/2 -translate-y-1/2 <?php echo $gia_icon; ?> pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -189,12 +190,13 @@ if ($is_compact) {
                                 <div class="relative">
                                     <select name="khoang-gia" class="appearance-none w-full bg-gray-50 border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm">
                                         <option value="">Tất cả</option>
-                                        <option value="0-500" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '0-500') ? 'selected' : ''; ?>>Dưới 500tr</option>
-                                        <option value="500-1000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500-1000') ? 'selected' : ''; ?>>500 - 1 tỷ</option>
                                         <option value="1000-3000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '1000-3000') ? 'selected' : ''; ?>>1 - 3 tỷ</option>
                                         <option value="3000-5000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '3000-5000') ? 'selected' : ''; ?>>3 - 5 tỷ</option>
                                         <option value="5000-10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '5000-10000') ? 'selected' : ''; ?>>5 - 10 tỷ</option>
-                                        <option value="10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000') ? 'selected' : ''; ?>>Trên 10 tỷ</option>
+                                        <option value="10000-50000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000-50000') ? 'selected' : ''; ?>>10 - 50 tỷ</option>
+                                        <option value="50000-100000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '50000-100000') ? 'selected' : ''; ?>>50 - 100 tỷ</option>
+                                        <option value="500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500000') ? 'selected' : ''; ?>>Dưới 500 tỷ</option>
+                                        <option value=">500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '>500000') ? 'selected' : ''; ?>>Trên 500 tỷ</option>
                                     </select>
                                     <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                                 </div>
@@ -270,12 +272,13 @@ if ($is_compact) {
                 <div class="relative group col-span-2 md:col-span-1">
                     <select name="khoang-gia" class="appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm">
                         <option value="">Khoảng giá</option>
-                        <option value="0-500" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '0-500') ? 'selected' : ''; ?>>Dưới 500tr</option>
-                        <option value="500-1000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500-1000') ? 'selected' : ''; ?>>500 - 1 tỷ</option>
                         <option value="1000-3000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '1000-3000') ? 'selected' : ''; ?>>1 - 3 tỷ</option>
                         <option value="3000-5000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '3000-5000') ? 'selected' : ''; ?>>3 - 5 tỷ</option>
                         <option value="5000-10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '5000-10000') ? 'selected' : ''; ?>>5 - 10 tỷ</option>
-                        <option value="10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000') ? 'selected' : ''; ?>>Trên 10 tỷ</option>
+                        <option value="10000-50000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000-50000') ? 'selected' : ''; ?>>10 - 50 tỷ</option>
+                        <option value="50000-100000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '50000-100000') ? 'selected' : ''; ?>>50 - 100 tỷ</option>
+                        <option value="500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500000') ? 'selected' : ''; ?>>Dưới 500 tỷ</option>
+                        <option value=">500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '>500000') ? 'selected' : ''; ?>>Trên 500 tỷ</option>
                     </select>
                     <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>

@@ -189,34 +189,6 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 /**
- * Register custom taxonomies.
- */
-function duc_bds_register_taxonomies() {
-	register_taxonomy( 'khu-dan-cu', array( 'bds' ), array(
-		'labels'            => array(
-			'name'              => __( 'Khu dân cư', 'duc-bds' ),
-			'singular_name'     => __( 'Khu dân cư', 'duc-bds' ),
-			'search_items'      => __( 'Tìm Khu dân cư', 'duc-bds' ),
-			'all_items'         => __( 'Tất cả Khu dân cư', 'duc-bds' ),
-			'parent_item'       => __( 'Khu dân cư cha', 'duc-bds' ),
-			'parent_item_colon' => __( 'Khu dân cư cha:', 'duc-bds' ),
-			'edit_item'         => __( 'Sửa Khu dân cư', 'duc-bds' ),
-			'update_item'       => __( 'Cập nhật Khu dân cư', 'duc-bds' ),
-			'add_new_item'      => __( 'Thêm Khu dân cư mới', 'duc-bds' ),
-			'new_item_name'     => __( 'Tên Khu dân cư mới', 'duc-bds' ),
-			'menu_name'         => __( 'Khu dân cư', 'duc-bds' ),
-		),
-		'hierarchical'      => true,
-		'show_ui'           => true,
-		'show_admin_column' => true,
-		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'khu-dan-cu' ),
-		'show_in_rest'      => true,
-	) );
-}
-add_action( 'init', 'duc_bds_register_taxonomies' );
-
-/**
  * Add custom class to li elements in wp_nav_menu
  */
 function duc_bds_add_li_class( $classes, $item, $args ) {
@@ -285,21 +257,62 @@ add_action( 'delete_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
  * Extend WordPress search to include ACF field 'ma_bds'
  */
 function duc_bds_extend_search( $query ) {
-    if ( ! is_admin() && $query->is_main_query() && $query->is_search() && 'bds' === $query->get( 'post_type' ) ) {
-        $search_term = $query->get( 's' );
+    if ( ! is_admin() && $query->is_main_query() && ( $query->is_search() || $query->is_post_type_archive('bds') || $query->is_tax() ) ) {
         
-        if ( ! empty( $search_term ) ) {
-            $meta_query = array(
-                'relation' => 'OR',
-                array(
+        $meta_query = array( 'relation' => 'AND' );
+        $has_meta = false;
+
+        // 1. Extend search to include ACF field 'ma_bds'
+        if ( $query->is_search() ) {
+            $search_term = $query->get( 's' );
+            if ( ! empty( $search_term ) ) {
+                $meta_query[] = array(
                     'key'     => 'ma_bds',
                     'value'   => $search_term,
                     'compare' => 'LIKE',
-                ),
-            );
+                );
+                $has_meta = true;
+            }
+        }
+
+        // 2. Handle Price Range (khoang-gia)
+        if ( isset( $_GET['khoang-gia'] ) && ! empty( $_GET['khoang-gia'] ) ) {
+            $range = explode( '-', $_GET['khoang-gia'] );
             
-            // Note: WordPress default search also runs. 
-            // Setting meta_query with OR will find posts matching EVERYTHING or just the meta.
+            if ( count( $range ) === 2 ) {
+                $min = intval( $range[0] ) * 1000000;
+                $max = intval( $range[1] ) * 1000000;
+                
+                $meta_query[] = array(
+                    'key'     => 'gia',
+                    'value'   => array( $min, $max ),
+                    'type'    => 'numeric',
+                    'compare' => 'BETWEEN',
+                );
+                $has_meta = true;
+            } elseif ( count( $range ) === 1 ) {
+                $val = intval( $range[0] ) * 1000000;
+                
+                if ( strpos( $_GET['khoang-gia'], '<' ) !== false || $_GET['khoang-gia'] == '500000' ) { // Dưới 500 tỷ hoặc logic tương tự
+                    $meta_query[] = array(
+                        'key'     => 'gia',
+                        'value'   => $val,
+                        'type'    => 'numeric',
+                        'compare' => '<=',
+                    );
+                } else {
+                    $meta_query[] = array(
+                        'key'     => 'gia',
+                        'value'   => $val,
+                        'type'    => 'numeric',
+                        'compare' => '>=',
+                    );
+                }
+                 $has_meta = true;
+            }
+        }
+
+        if ( $has_meta ) {
             $query->set( 'meta_query', $meta_query );
         }
     }
