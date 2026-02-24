@@ -234,20 +234,53 @@ if ($is_compact) {
             </div>
 
             <!-- Radio: Bán / Cho thuê -->
-            <div class="flex flex-wrap gap-2">
-                <?php
-                $hinh_thuc_terms = duc_bds_get_cached_terms('hinh-thuc-bds');
-                $current_hinh_thuc = isset($_GET['hinh-thuc-bds']) ? $_GET['hinh-thuc-bds'] : '';
-                if (!empty($hinh_thuc_terms) && !is_wp_error($hinh_thuc_terms)) :
-                    foreach ($hinh_thuc_terms as $index => $term) :
-                        $checked = ($current_hinh_thuc == $term->slug || (empty($current_hinh_thuc) && $index === 0)) ? 'checked' : '';
-                ?>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="hinh-thuc-bds" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo $checked; ?>>
-                        <span class="px-5 py-2.5 rounded-full border border-gray-200 text-sm font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block"><?php echo esc_html($term->name); ?></span>
-                    </label>
-                <?php endforeach; ?>
-                <?php endif; ?>
+            <div class="flex flex-wrap gap-x-2 gap-y-4 items-center">
+                <div class="flex flex-wrap gap-2">
+                    <?php
+                    $hinh_thuc_terms = duc_bds_get_cached_terms('hinh-thuc-bds');
+                    $current_hinh_thuc = isset($_GET['hinh-thuc-bds']) ? $_GET['hinh-thuc-bds'] : '';
+                    if (!empty($hinh_thuc_terms) && !is_wp_error($hinh_thuc_terms)) :
+                        foreach ($hinh_thuc_terms as $index => $term) :
+                            $checked = ($current_hinh_thuc == $term->slug || (empty($current_hinh_thuc) && $index === 0)) ? 'checked' : '';
+                    ?>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="hinh-thuc-bds" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo $checked; ?>>
+                            <span class="px-5 py-2.5 rounded-full border border-gray-200 text-sm font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-700"><?php echo esc_html($term->name); ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+
+                <div class="hidden md:block w-px h-8 bg-gray-100 mx-2"></div>
+
+                <!-- Featured Categories (loai-bds) -->
+                <div class="flex flex-wrap gap-2">
+                    <?php
+                    // Get featured categories from ACF Options
+                    $featured_loai_ids = get_field('loại_hinh_bds_noi_bat', 'options');
+                    $loai_bds_terms = array();
+
+                    if (!empty($featured_loai_ids)) {
+                        $loai_bds_terms = get_terms(array(
+                            'taxonomy'   => 'loai-bds',
+                            'include'    => $featured_loai_ids,
+                            'hide_empty' => false,
+                            'orderby'    => 'include', // Keep the order set in ACF
+                        ));
+                    }
+                    
+                    $current_loai = isset($_GET['loai-bds']) ? $_GET['loai-bds'] : '';
+                    ?>
+
+                    <?php if (!empty($loai_bds_terms) && !is_wp_error($loai_bds_terms)) : ?>
+                        <?php foreach ($loai_bds_terms as $term) : ?>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="loai-bds" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo ($current_loai === $term->slug) ? 'checked' : ''; ?>>
+                                <span class="px-5 py-2.5 rounded-full border border-gray-200 text-sm font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-700"><?php echo esc_html($term->name); ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <!-- Grid Selects -->

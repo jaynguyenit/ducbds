@@ -79,4 +79,44 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+
+    // Sync loai-bds dropdown and radios
+    const loaiSelects = document.querySelectorAll('select[name="loai-bds"]');
+    const loaiRadios = document.querySelectorAll('input[type="radio"][name="loai-bds"]');
+
+    if (loaiSelects.length > 0 && loaiRadios.length > 0) {
+        // When radio changes -> update all selects
+        loaiRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.checked) {
+                    const val = this.value;
+                    loaiSelects.forEach(select => {
+                        select.value = val;
+                    });
+                }
+            });
+        });
+
+        // When select changes -> update all radios
+        loaiSelects.forEach(select => {
+            select.addEventListener('change', function () {
+                const val = this.value;
+                let foundMatch = false;
+                loaiRadios.forEach(radio => {
+                    if (radio.value === val) {
+                        radio.checked = true;
+                        foundMatch = true;
+                    } else {
+                        radio.checked = false;
+                    }
+                });
+
+                // If no radio matches the selected value (e.g. selected something not in featured)
+                // we should probably uncheck all featured radios
+                if (!foundMatch && val !== "") {
+                    loaiRadios.forEach(radio => radio.checked = false);
+                }
+            });
+        });
+    }
 });
