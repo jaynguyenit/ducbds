@@ -71,7 +71,7 @@ if ($is_compact) {
                         <?php 
                         $compact_selects = array(
                             'hinh-thuc-bds' => 'Hình thức',
-                            'loai-bds'      => 'Loại hình',
+                            'loai-bds'      => 'Loại hình BĐS',
                             'phuong-xa'     => 'Khu vực',
                             'huong-nha'     => 'Hướng',
                             'loai-duong'    => 'Đường'
@@ -163,7 +163,7 @@ if ($is_compact) {
                             <?php 
                             $drawer_selects = array(
                                 'hinh-thuc-bds' => 'Hình thức',
-                                'loai-bds'      => 'Loại hình',
+                                'loai-bds'      => 'Loại hình BĐS',
                                 'phuong-xa'     => 'Khu vực',
                                 'huong-nha'     => 'Hướng nhà',
                                 'loai-duong'    => 'Loại đường'
@@ -251,7 +251,7 @@ if ($is_compact) {
             <!-- Grid Selects -->
             <div class="<?php echo $is_sidebar ? 'space-y-4' : 'grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4'; ?>">
                 <div class="relative group">
-                    <select name="loai-bds" class="appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-bds', 'Loại hình'); ?></select>
+                    <select name="loai-bds" class="appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-bds', 'Loại hình BĐS'); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 <div class="relative group">
