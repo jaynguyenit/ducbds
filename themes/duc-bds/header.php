@@ -109,11 +109,6 @@
 					)
 				);
 				?>
-				<div class="pt-4 border-t border-gray-100">
-					<a href="#" class="block w-full text-center px-5 py-3 text-base font-semibold rounded-lg text-white bg-primary hover:bg-primary/90 transition-all">
-						<?php esc_html_e( 'Đăng tin ngay', 'duc-bds' ); ?>
-					</a>
-				</div>
 			</div>
 		</div>
 	</header><!-- #masthead -->
