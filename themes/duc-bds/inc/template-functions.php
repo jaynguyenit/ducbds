@@ -115,6 +115,17 @@ function my_acf_json_save_point( $path ) {
 }
 add_filter( 'acf/settings/save_json', 'my_acf_json_save_point' );
 
+function my_acf_json_load_point( $paths ) {
+    // Remove the original path (optional).
+    unset($paths[0]);
+
+    // Append the new path and return it.
+    $paths[] = get_stylesheet_directory() . '/acf-jsons';
+
+    return $paths;    
+}
+add_filter( 'acf/settings/load_json', 'my_acf_json_load_point' );
+
 /**
  * Get the property thumbnail URL with fallback logic
  * 
@@ -158,7 +169,7 @@ function duc_bds_get_breadcrumbs() {
 	);
 
 	if ( is_archive() || is_single() ) {
-		if ( is_post_type_archive( 'bds' ) || is_singular( 'bds' ) || is_tax( array( 'loai-bds', 'hinh-thuc-bds', 'phuong-xa', 'loai-duong', 'huong-nha', 'tinh-trang' ) ) ) {
+		if ( is_post_type_archive( 'bds' ) || is_singular( 'bds' ) || is_tax( array( 'loai-bds', 'hinh-thuc-bds', 'phuong-xa', 'loai-duong', 'huong-nha', 'tinh-trang', 'khu-dan-cu' ) ) ) {
 			
 			// Custom path for Real Estate
 			$breadcrumbs[] = array(

@@ -189,6 +189,34 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 /**
+ * Register custom taxonomies.
+ */
+function duc_bds_register_taxonomies() {
+	register_taxonomy( 'khu-dan-cu', array( 'bds' ), array(
+		'labels'            => array(
+			'name'              => __( 'Khu dân cư', 'duc-bds' ),
+			'singular_name'     => __( 'Khu dân cư', 'duc-bds' ),
+			'search_items'      => __( 'Tìm Khu dân cư', 'duc-bds' ),
+			'all_items'         => __( 'Tất cả Khu dân cư', 'duc-bds' ),
+			'parent_item'       => __( 'Khu dân cư cha', 'duc-bds' ),
+			'parent_item_colon' => __( 'Khu dân cư cha:', 'duc-bds' ),
+			'edit_item'         => __( 'Sửa Khu dân cư', 'duc-bds' ),
+			'update_item'       => __( 'Cập nhật Khu dân cư', 'duc-bds' ),
+			'add_new_item'      => __( 'Thêm Khu dân cư mới', 'duc-bds' ),
+			'new_item_name'     => __( 'Tên Khu dân cư mới', 'duc-bds' ),
+			'menu_name'         => __( 'Khu dân cư', 'duc-bds' ),
+		),
+		'hierarchical'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'khu-dan-cu' ),
+		'show_in_rest'      => true,
+	) );
+}
+add_action( 'init', 'duc_bds_register_taxonomies' );
+
+/**
  * Add custom class to li elements in wp_nav_menu
  */
 function duc_bds_add_li_class( $classes, $item, $args ) {
@@ -240,6 +268,7 @@ function duc_bds_clear_taxonomy_transients( $term_id, $tt_id, $taxonomy ) {
 		'loai-duong',
 		'huong-nha',
 		'tinh-trang',
+		'khu-dan-cu',
 	);
 
 	if ( in_array( $taxonomy, $taxonomies_to_clear, true ) ) {

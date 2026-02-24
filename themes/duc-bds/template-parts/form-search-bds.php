@@ -74,7 +74,7 @@ if ($is_compact) {
                             'loai-bds'      => 'Loại hình BĐS',
                             'phuong-xa'     => 'Khu vực',
                             'huong-nha'     => 'Hướng',
-                            'loai-duong'    => 'Đường'
+                            'khu-dan-cu'    => 'Khu dân cư'
                         );
 
                         foreach ($compact_selects as $tax => $label) : 
@@ -166,7 +166,7 @@ if ($is_compact) {
                                 'loai-bds'      => 'Loại hình BĐS',
                                 'phuong-xa'     => 'Khu vực',
                                 'huong-nha'     => 'Hướng nhà',
-                                'loai-duong'    => 'Loại đường'
+                                'khu-dan-cu'    => 'Khu dân cư'
                             );
 
                             foreach ($drawer_selects as $tax => $label) : 
@@ -263,7 +263,7 @@ if ($is_compact) {
                     <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 <div class="relative group">
-                    <select name="loai-duong" class="appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-duong', 'Loại đường'); ?></select>
+                    <select name="khu-dan-cu" class="appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('khu-dan-cu', 'Khu dân cư'); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
 
