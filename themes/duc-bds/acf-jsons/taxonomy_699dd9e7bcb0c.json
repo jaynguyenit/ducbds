@@ -1,5 +1,5 @@
 {
-    "key": "taxonomy_khu_dan_cu",
+    "key": "taxonomy_699dd9e7bcb0c",
     "title": "Khu dân cư",
     "menu_order": 0,
     "active": true,
@@ -7,35 +7,35 @@
     "object_type": [
         "bds"
     ],
-    "advanced_configuration": 1,
+    "advanced_configuration": 0,
     "import_source": "",
     "import_date": "",
     "labels": {
         "name": "Khu dân cư",
         "singular_name": "Khu dân cư",
         "menu_name": "Khu dân cư",
-        "all_items": "Tất cả Khu dân cư",
-        "edit_item": "Sửa Khu dân cư",
-        "view_item": "Xem Khu dân cư",
-        "update_item": "Cập nhật Khu dân cư",
-        "add_new_item": "Thêm Khu dân cư mới",
-        "new_item_name": "Tên Khu dân cư mới",
-        "parent_item": "Khu dân cư cha",
-        "parent_item_colon": "Khu dân cư cha:",
-        "search_items": "Tìm Khu dân cư",
+        "all_items": "All Khu dân cư",
+        "edit_item": "Edit Khu dân cư",
+        "view_item": "View Khu dân cư",
+        "update_item": "Update Khu dân cư",
+        "add_new_item": "Add New Khu dân cư",
+        "new_item_name": "New Khu dân cư Name",
+        "parent_item": "Parent Khu dân cư",
+        "parent_item_colon": "Parent Khu dân cư:",
+        "search_items": "Search Khu dân cư",
         "most_used": "",
-        "not_found": "Không tìm thấy khu dân cư",
-        "no_terms": "Không có khu dân cư",
+        "not_found": "No khu dân cư found",
+        "no_terms": "No khu dân cư",
         "name_field_description": "",
         "slug_field_description": "",
         "parent_field_description": "",
         "desc_field_description": "",
-        "filter_by_item": "Lọc theo khu dân cư",
-        "items_list_navigation": "Danh sách Khu dân cư điều hướng",
-        "items_list": "Danh sách Khu dân cư",
-        "back_to_items": "← Quay lại Khu dân cư",
-        "item_link": "Liên kết Khu dân cư",
-        "item_link_description": "Một liên kết đến khu dân cư"
+        "filter_by_item": "Filter by khu dân cư",
+        "items_list_navigation": "Khu dân cư list navigation",
+        "items_list": "Khu dân cư list",
+        "back_to_items": "← Go to khu dân cư",
+        "item_link": "Khu dân cư Link",
+        "item_link_description": "A link to a khu dân cư"
     },
     "description": "",
     "capabilities": {
@@ -56,7 +56,7 @@
     "rest_controller_class": "WP_REST_Terms_Controller",
     "show_tagcloud": 1,
     "show_in_quick_edit": 1,
-    "show_admin_column": 1,
+    "show_admin_column": 0,
     "rewrite": {
         "permalink_rewrite": "taxonomy_key",
         "with_front": "1",
@@ -71,5 +71,5 @@
     "meta_box": "default",
     "meta_box_cb": "",
     "meta_box_sanitize_cb": "",
-    "modified": 1771953968
+    "modified": 1771954057
 }
