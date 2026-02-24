@@ -13,6 +13,21 @@ if ( ! defined( '_S_VERSION' ) ) {
 }
 
 /**
+ * Register ACF Options Page
+ */
+if ( function_exists( 'acf_add_options_page' ) ) {
+	acf_add_options_page(
+		array(
+			'page_title' => 'Quản lý chung',
+			'menu_title' => 'Quản lý chung',
+			'menu_slug'  => 'quan-ly-chung',
+			'capability' => 'edit_posts',
+			'redirect'   => false,
+		)
+	);
+}
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  *
  * Note that this function is hooked into the after_setup_theme hook, which
