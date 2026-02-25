@@ -372,47 +372,65 @@ add_action( 'pre_get_posts', 'duc_bds_extend_search' );
 /**
  * Join postmeta table to the search query for BDS property code
  */
-function duc_bds_search_join( $join ) {
+function duc_bds_search_join( $join, $wp_query ) {
     global $wpdb;
-    if ( is_search() && !is_admin() ) {
-        if ( isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
+    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+        $post_type = $wp_query->get('post_type');
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
             $join .= " LEFT JOIN {$wpdb->postmeta} AS bds_meta ON {$wpdb->posts}.ID = bds_meta.post_id AND bds_meta.meta_key = 'ma_bds' ";
         }
     }
     return $join;
 }
-add_filter( 'posts_join', 'duc_bds_search_join' );
+add_filter( 'posts_join', 'duc_bds_search_join', 10, 2 );
 
 /**
  * Modify search condition to include property code (ma_bds)
  */
-function duc_bds_search_where( $where ) {
+function duc_bds_search_where( $where, $wp_query ) {
     global $wpdb;
-    if ( is_search() && !is_admin() ) {
-        if ( isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
-            $search_term = get_search_query();
-            if ( !empty($search_term) ) {
-                $search_term = esc_sql( $wpdb->esc_like( $search_term ) );
-                // Inject our OR condition for property code into the search group
-                $where = preg_replace(
-                    "/\({$wpdb->posts}\.post_title\s+LIKE\s+'%{$search_term}%'\)/i",
-                    "({$wpdb->posts}.post_title LIKE '%{$search_term}%' OR bds_meta.meta_value LIKE '%{$search_term}%')",
-                    $where
+
+    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+        $post_type = $wp_query->get('post_type');
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
+            $search_term = $wp_query->get('s');
+            
+            if ( ! empty($search_term) ) {
+                $search_term_esc = esc_sql( $wpdb->esc_like( $search_term ) );
+                
+                // Matches (wp_posts.post_title LIKE '...') or (`wp_posts`.`post_title` LIKE '...')
+                // We use a non-greedy catch-all (.*?) inside quotes to support WordPress placeholders (hashes)
+                $table_name = preg_quote($wpdb->posts);
+                $pattern = sprintf(
+                    '/\(?((?:`?%s`?\.)?`?post_title`?)\s+LIKE\s+\'(.*?)\'\)?/i',
+                    $table_name
                 );
+                
+                // We extract the actual placeholder-wrapped term from the match to ensure consistency
+                $where = preg_replace_callback($pattern, function($matches) use ($search_term_esc) {
+                    $post_title_fragment = $matches[0];
+                    $placeholder_wrapped_term = $matches[2];
+                    
+                    // Replace the inner term or just append our OR condition
+                    return "($post_title_fragment OR bds_meta.meta_value LIKE '$placeholder_wrapped_term')";
+                }, $where);
             }
         }
     }
     return $where;
 }
-add_filter( 'posts_where', 'duc_bds_search_where' );
+add_filter( 'posts_where', 'duc_bds_search_where', 10, 2 );
 
 /**
  * Ensure distinct results to avoid duplicates from join
  */
-function duc_bds_search_distinct( $distinct ) {
-    if ( is_search() && !is_admin() && isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
-        return "DISTINCT";
+function duc_bds_search_distinct( $distinct, $wp_query ) {
+    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+        $post_type = $wp_query->get('post_type');
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
+            return "DISTINCT";
+        }
     }
     return $distinct;
 }
-add_filter( 'posts_distinct', 'duc_bds_search_distinct' );
+add_filter( 'posts_distinct', 'duc_bds_search_distinct', 10, 2 );
