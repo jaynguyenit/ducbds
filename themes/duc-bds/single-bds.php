@@ -336,6 +336,8 @@ while ( have_posts() ) :
 			// Elements for Fraction Pagination
 			const fractionCurrent = document.querySelector('.custom-fraction .current');
 			const fractionTotal = document.querySelector('.custom-fraction .total');
+			const lightbox = document.getElementById('gallery-lightbox');
+			const closeBtn = document.getElementById('close-lightbox');
 
 			// Initialize Thumb Slider
 			const thumbSwiper = new Swiper('.bds-thumb-slider', {
@@ -367,9 +369,6 @@ while ( have_posts() ) :
 				},
 				thumbs: thumbSwiper ? { swiper: thumbSwiper } : undefined,
 				on: {
-					init: function(swiper) {
-						if (fractionTotal) fractionTotal.textContent = swiper.slides.length - (swiper.params.loop ? 2 : 0);
-					},
 					slideChange: function(swiper) {
 						if (fractionCurrent) {
 							fractionCurrent.textContent = (swiper.realIndex + 1);
