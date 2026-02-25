@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Integrated Native Share for Facebook/Zalo on Mobile
+    /* Tạm thời vô hiệu hóa Native Share do chưa ổn định trên một số thiết bị iOS
     const nativeShareBtns = document.querySelectorAll('.share-btn-native');
     if (nativeShareBtns.length > 0 && navigator.share) {
         // Only apply special logic for mobile devices
@@ -228,4 +228,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+    */
 });
