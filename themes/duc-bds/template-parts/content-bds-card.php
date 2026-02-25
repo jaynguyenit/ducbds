@@ -7,7 +7,7 @@ $post_id = get_the_ID();
 
 // Lấy dữ liệu từ ACF
 $gia = get_field('gia', $post_id);
-$thumb_url = duc_bds_get_thumbnail_url($post_id, 'medium_large');
+$thumb_url = duc_bds_get_thumbnail_url($post_id);
 $phuong_xa = get_the_terms($post_id, 'phuong-xa');
 $hinh_thuc = get_the_terms($post_id, 'hinh-thuc-bds');
 

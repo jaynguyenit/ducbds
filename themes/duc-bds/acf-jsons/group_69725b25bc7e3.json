@@ -146,7 +146,7 @@
             "aria-label": "",
             "type": "taxonomy",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "33.333",
@@ -466,5 +466,5 @@
     "acfe_form": 0,
     "acfe_meta": "",
     "acfe_note": "",
-    "modified": 1770446869
+    "modified": 1772010808
 }

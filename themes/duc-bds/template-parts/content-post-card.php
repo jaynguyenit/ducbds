@@ -15,7 +15,7 @@ $category_name = ! empty( $categories ) ? $categories[0]->name : 'Tin tức';
     
     <a href="<?php the_permalink(); ?>" class="block aspect-[16/10] overflow-hidden">
         <?php if ( has_post_thumbnail() ) : ?>
-            <?php the_post_thumbnail( 'large', array( 'class' => 'w-full h-full object-cover hover:scale-105 transition duration-500' ) ); ?>
+            <?php the_post_thumbnail( 'jay_core_thumb', array( 'class' => 'w-full h-full object-cover hover:scale-105 transition duration-500' ) ); ?>
         <?php else : ?>
             <img src="https://placehold.co/800x500" class="w-full h-full object-cover" alt="<?php the_title_attribute(); ?>">
         <?php endif; ?>

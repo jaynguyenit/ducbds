@@ -132,10 +132,10 @@ add_filter( 'acf/settings/load_json', 'my_acf_json_load_point' );
  * Order: Featured Image > First image in ACF Gallery > Placeholder
  * 
  * @param int $post_id The post ID
- * @param string $size The image size (thumbnail, medium, large, full)
+ * @param string $size The image size (thumbnail, medium, large, full, jay_core_thumb)
  * @return string The image URL
  */
-function duc_bds_get_thumbnail_url($post_id, $size = 'medium') {
+function duc_bds_get_thumbnail_url($post_id, $size = 'jay_core_thumb') {
     // 1. Check for Featured Image
     if (has_post_thumbnail($post_id)) {
         return get_the_post_thumbnail_url($post_id, $size);
