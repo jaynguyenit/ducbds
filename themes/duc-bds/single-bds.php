@@ -116,7 +116,7 @@ while ( have_posts() ) :
 								</p>
 							</div>
 							<div class="bg-primary/10 px-4 py-2.5 rounded-xl self-start">
-								<p class="text-primary font-bold text-2xl">
+								<p class="text-primary font-bold text-2xl whitespace-nowrap">
 									<?php echo esc_html( $gia_display ); ?>
 								</p>
 							</div>
