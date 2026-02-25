@@ -65,6 +65,7 @@
 
         <!-- Footer / Share -->
         <footer class="mt-12 pt-8 border-t border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <?php /*
             <div class="flex flex-col gap-4">
                 <span class="text-sm font-bold text-gray-900">Chia sẻ bài viết này:</span>
                 <div class="flex flex-wrap items-center gap-3">
@@ -98,6 +99,7 @@
                     </button>
                 </div>
             </div>
+            */ ?>
             
             <div class="flex flex-wrap gap-2 text-xs">
                 <?php the_tags('<span class="text-gray-400">Thẻ:</span> ', ' ', ''); ?>

@@ -184,6 +184,7 @@ while ( have_posts() ) :
 						</div>
 
                         <!-- SHARE BUTTONS -->
+                        <?php /*
                         <div class="pt-6 border-t border-gray-100">
                             <h4 class="text-sm font-bold text-gray-900 mb-4">Chia sẻ bất động sản này:</h4>
                             <div class="flex flex-wrap gap-3">
@@ -217,6 +218,7 @@ while ( have_posts() ) :
                                 </button>
                             </div>
                         </div>
+						*/ ?>
 						
 						<?php if($ma_bds): ?>
 							<div class="pt-4 border-t border-gray-100">
