@@ -70,23 +70,22 @@
 
 <?php 
 $hotline = get_field('hotline', 'options');
-if ( $hotline ) : 
+if ( $hotline && !is_singular('bds') ) {
     $phone_url = 'tel:' . str_replace( array(' ', '.', '-', '(', ')'), '', $hotline );
 ?>
-<a href="<?php echo esc_url($phone_url); ?>" class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group phone-no-print" title="Gọi ngay cho chúng tôi">
-    <div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-20 group-hover:opacity-40"></div>
-    <div class="relative z-10">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-    </div>
-</a>
+	<a href="<?php echo esc_url($phone_url); ?>" class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group phone-no-print" title="Gọi ngay cho chúng tôi">
+		<div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-20 group-hover:opacity-40"></div>
+		<div class="relative z-10">
+			<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+		</div>
+	</a>
 
-<style>
-@media print {
-    .phone-no-print { display: none !important; }
-}
-</style>
-<?php endif; ?>
-
+	<style>
+	@media print {
+		.phone-no-print { display: none !important; }
+	}
+	</style>
+<?php } ?>
 <?php wp_footer(); ?>
 
 </body>
