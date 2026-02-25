@@ -289,6 +289,13 @@ function duc_bds_extend_search( $query ) {
                     'compare' => 'LIKE',
                 );
                 $has_meta = true;
+            } else {
+                // If 's' is present but empty, we clear it to avoid WordPress empty search logic
+                $query->set('s', ''); 
+                // We also need to prevent it from acting as a search query if only taxonomies are present
+                if (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') {
+                    $query->set('s', false);
+                }
             }
         }
 

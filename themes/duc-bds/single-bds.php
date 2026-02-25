@@ -241,24 +241,28 @@ while ( have_posts() ) :
 							<p class="text-white/80 text-sm mb-6 relative z-10">Bạn quan tâm đến bất động sản này? Hãy liên hệ ngay với chúng tôi để được hỗ trợ tốt nhất.</p>
 							
 							<div class="space-y-4 relative z-10">
-								<a href="tel:0901234567" class="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition no-underline group">
-									<div class="bg-white text-primary p-2.5 rounded-xl group-hover:scale-110 transition duration-300">
-										<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-									</div>
-									<div>
-										<p class="text-[10px] text-white/60 uppercase font-bold">Hotline 24/7</p>
-										<p class="font-bold text-lg">090 123 4567</p>
-									</div>
-								</a>
-								<a href="https://zalo.me/0901234567" class="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition no-underline group">
-									<div class="bg-white text-primary p-2.5 rounded-xl group-hover:scale-110 transition duration-300">
-										<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-									</div>
-									<div>
-										<p class="text-[10px] text-white/60 uppercase font-bold">Zalo tư vấn</p>
-										<p class="font-bold text-lg">Nhắn tin ngay</p>
-									</div>
-								</a>
+								<?php if(get_field('hotline','option')){ ?>
+									<a href="tel:<?php echo get_field('hotline','option'); ?>" class="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition no-underline group">
+										<div class="bg-white text-primary p-2.5 rounded-xl group-hover:scale-110 transition duration-300">
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+										</div>
+										<div>
+											<p class="text-[10px] text-white/60 uppercase font-bold">Hotline 24/7</p>
+											<p class="font-bold text-lg"><?php echo get_field('hotline','option'); ?></p>
+										</div>
+									</a>
+								<?php } ?>
+								<?php if(get_field('zalo','option')){ ?>
+									<a href="https://zalo.me/<?php echo get_field('zalo','option'); ?>" class="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition no-underline group">
+										<div class="bg-white text-primary p-2.5 rounded-xl group-hover:scale-110 transition duration-300">
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+										</div>
+										<div>
+											<p class="text-[10px] text-white/60 uppercase font-bold">Zalo tư vấn</p>
+											<p class="font-bold text-lg">Nhắn tin ngay</p>
+										</div>
+									</a>
+								<?php } ?>
 							</div>
 						</div>
 
@@ -283,14 +287,18 @@ while ( have_posts() ) :
     <!-- STICKY BOTTOM CTA (Mobile Only - Native App Style) -->
     <div id="sticky-bottom-cta" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] bg-white/80 backdrop-blur-xl border-t border-gray-100 shadow-[0_-8px_30px_rgb(0,0,0,0.08)]">
         <div class="grid grid-cols-2 gap-3 max-w-xl mx-auto">
-            <a href="https://zalo.me/0901234567" class="flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-2xl text-[13px] shadow-lg shadow-primary/20 active:scale-95 transition-transform duration-200">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.654 1.439 5.166L2 22l4.908-1.402C8.366 21.493 10.116 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.15-.434-4.437-1.196L4.5 20l1.176-3.125C4.85 15.65 4 13.91 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-                Zalo tư vấn
-            </a>
-            <a href="tel:0901234567" class="flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-2xl text-[13px] shadow-lg shadow-primary/20 active:scale-95 transition-transform duration-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                Gọi ngay
-            </a>
+			<?php if(get_field('zalo','option')){ ?>
+				<a href="https://zalo.me/<?php echo get_field('zalo','option'); ?>" class="flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-2xl text-[13px] shadow-lg shadow-primary/20 active:scale-95 transition-transform duration-200">
+					<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.654 1.439 5.166L2 22l4.908-1.402C8.366 21.493 10.116 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.15-.434-4.437-1.196L4.5 20l1.176-3.125C4.85 15.65 4 13.91 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+					Zalo tư vấn
+				</a>
+			<?php } ?>
+			<?php  if(get_field('hotline','option')){ ?>
+				<a href="tel:<?php echo get_field('hotline','option'); ?>" class="flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-2xl text-[13px] shadow-lg shadow-primary/20 active:scale-95 transition-transform duration-200">
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+					Gọi ngay
+				</a>
+			<?php } ?>
         </div>
     </div>
 

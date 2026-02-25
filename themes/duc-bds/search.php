@@ -11,9 +11,9 @@ get_header();
 ?>
 
 <div class="py-12 bg-gray-50 min-h-screen">
-	<?php get_template_part('template-parts/form-search-bds', null, array('is_compact' => true)); ?>
-	
 	<div class="max-w-7xl mx-auto px-4 md:px-6">
+		<?php get_template_part('template-parts/form-search-bds', null, array('is_compact' => true)); ?>
+
 		
         <header class="mb-10">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-900 flex items-center justify-between gap-3">
@@ -62,19 +62,9 @@ get_header();
 			</div>
 
 		<?php else : ?>
-			<div class="bg-white rounded-2xl p-12 text-center shadow-sm max-w-2xl mx-auto">
-				<div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-					<svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-					</svg>
-				</div>
-				<h2 class="text-2xl font-bold text-gray-800">Không tìm thấy bất động sản nào</h2>
-				<p class="text-gray-500 mt-2">Vui lòng thử lại với các tiêu chí tìm kiếm khác hoặc sử dụng bộ lọc để thu hẹp phạm vi tìm kiếm.</p>
-				<div class="mt-8">
-					<?php get_search_form(); ?>
-				</div>
-			</div>
+			<?php get_template_part('template-parts/content-none-bds'); ?>
 		<?php endif; ?>
+
 
 	</div>
 </div>

@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Prevent duplicate parameters in URL by disabling hidden inputs before submission
         searchForm.addEventListener('submit', function () {
-            const isDesktop = window.innerWidth >= 1280; // xl breakpoint
+            const isDesktop = window.matchMedia('(min-width: 1280px)').matches; // xl breakpoint
             const compactBar = this.querySelector('.xl\\:block');
             const mobileDrawer = document.getElementById('mobile-filter-drawer');
 
@@ -133,10 +133,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 // On desktop, disable inputs inside the mobile drawer
                 if (mobileDrawer) {
                     const drawerInputs = mobileDrawer.querySelectorAll('select, input');
-                    drawerInputs.forEach(input => input.disabled = true);
+                    drawerInputs.forEach(input => {
+                        // Only disable if it has a twin in the visible bar
+                        if (input.name && compactBar.querySelector(`[name="${input.name}"]`)) {
+                            input.disabled = true;
+                        }
+                    });
                 }
             } else if (!isDesktop) {
-                // On mobile, if we have a compact bar, its inputs might still be there but hidden
+                // On mobile/tablet (drawer visible), disable inputs in the desktop bar
                 if (compactBar) {
                     const barInputs = compactBar.querySelectorAll('select, input');
                     barInputs.forEach(input => input.disabled = true);
@@ -149,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 allDisabled.forEach(input => input.disabled = false);
             }, 100);
         });
+
     }
 });
 

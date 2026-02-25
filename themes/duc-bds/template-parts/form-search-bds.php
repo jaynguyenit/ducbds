@@ -67,7 +67,7 @@ if ($is_compact) {
                     </div>
 
                     <!-- Vùng scrollable cho các bộ lọc -->
-                    <div class="flex-grow flex items-center gap-1.5 md:gap-2 overflow-x-auto xl:overflow-x-visible scrollbar-hide no-scrollbar py-0.5 touch-pan-x overscroll-x-contain">
+                    <div class="flex-grow flex items-center gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide no-scrollbar py-0.5 touch-pan-x overscroll-x-contain">
                         <?php 
                         $compact_selects = array(
                             'hinh-thuc-bds' => 'Hình thức',
