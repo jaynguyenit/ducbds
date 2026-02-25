@@ -241,7 +241,7 @@ if ($is_compact) {
                     $current_hinh_thuc = isset($_GET['hinh-thuc-bds']) ? $_GET['hinh-thuc-bds'] : '';
                     if (!empty($hinh_thuc_terms) && !is_wp_error($hinh_thuc_terms)) :
                         foreach ($hinh_thuc_terms as $index => $term) :
-                            $checked = ($current_hinh_thuc == $term->slug || (empty($current_hinh_thuc) && $index === 0)) ? 'checked' : '';
+                            $checked = ($current_hinh_thuc == $term->slug) ? 'checked' : '';
                     ?>
                         <label class="cursor-pointer">
                             <input type="radio" name="hinh-thuc-bds" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo $checked; ?>>

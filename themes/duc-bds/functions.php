@@ -279,17 +279,10 @@ function duc_bds_extend_search( $query ) {
         $has_meta   = false;
         $has_tax    = false;
 
-        // 1. Extend search to include ACF field 'ma_bds'
+        // 1. Handle search empty string for BDS
         if ( $query->is_search() ) {
             $search_term = $query->get( 's' );
-            if ( ! empty( $search_term ) ) {
-                $meta_query[] = array(
-                    'key'     => 'ma_bds',
-                    'value'   => $search_term,
-                    'compare' => 'LIKE',
-                );
-                $has_meta = true;
-            } else {
+            if ( empty( $search_term ) ) {
                 // If 's' is present but empty, we clear it to avoid WordPress empty search logic
                 $query->set('s', ''); 
                 // We also need to prevent it from acting as a search query if only taxonomies are present
@@ -375,3 +368,51 @@ function duc_bds_extend_search( $query ) {
 }
 add_action( 'pre_get_posts', 'duc_bds_extend_search' );
 
+
+/**
+ * Join postmeta table to the search query for BDS property code
+ */
+function duc_bds_search_join( $join ) {
+    global $wpdb;
+    if ( is_search() && !is_admin() ) {
+        if ( isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
+            $join .= " LEFT JOIN {$wpdb->postmeta} AS bds_meta ON {$wpdb->posts}.ID = bds_meta.post_id AND bds_meta.meta_key = 'ma_bds' ";
+        }
+    }
+    return $join;
+}
+add_filter( 'posts_join', 'duc_bds_search_join' );
+
+/**
+ * Modify search condition to include property code (ma_bds)
+ */
+function duc_bds_search_where( $where ) {
+    global $wpdb;
+    if ( is_search() && !is_admin() ) {
+        if ( isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
+            $search_term = get_search_query();
+            if ( !empty($search_term) ) {
+                $search_term = esc_sql( $wpdb->esc_like( $search_term ) );
+                // Inject our OR condition for property code into the search group
+                $where = preg_replace(
+                    "/\({$wpdb->posts}\.post_title\s+LIKE\s+'%{$search_term}%'\)/i",
+                    "({$wpdb->posts}.post_title LIKE '%{$search_term}%' OR bds_meta.meta_value LIKE '%{$search_term}%')",
+                    $where
+                );
+            }
+        }
+    }
+    return $where;
+}
+add_filter( 'posts_where', 'duc_bds_search_where' );
+
+/**
+ * Ensure distinct results to avoid duplicates from join
+ */
+function duc_bds_search_distinct( $distinct ) {
+    if ( is_search() && !is_admin() && isset($_GET['post_type']) && $_GET['post_type'] === 'bds' ) {
+        return "DISTINCT";
+    }
+    return $distinct;
+}
+add_filter( 'posts_distinct', 'duc_bds_search_distinct' );
