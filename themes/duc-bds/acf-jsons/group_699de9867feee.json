@@ -209,6 +209,72 @@
             "multiple": 0,
             "allow_null": 0,
             "allow_in_bindings": 0
+        },
+        {
+            "key": "field_seo_tab",
+            "label": "SEO & MXH",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_seo_default_description",
+            "label": "Mô tả mặc định",
+            "name": "seo_default_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Dùng khi trang không có mô tả riêng.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "acfe_textarea_code": 0,
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_seo_default_image",
+            "label": "Ảnh chia sẻ mặc định",
+            "name": "seo_default_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Dùng làm ảnh hiển thị khi chia sẻ trang chủ hoặc trang không có ảnh đại diện (Kích thước khuyên dùng: 1200x630px).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0,
+            "preview_size": "medium"
         }
     ],
     "location": [

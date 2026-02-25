@@ -15,25 +15,6 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="profile" href="https://gmpg.org/xfn/11">
-
-	<?php
-	if ( is_singular( 'bds' ) ) {
-		$post_id = get_the_ID();
-		$title   = get_the_title( $post_id );
-		$desc    = get_the_excerpt( $post_id ) ?: mb_strimwidth( wp_strip_all_tags( get_the_content( null, false, $post_id ) ), 0, 160, '...' );
-		$img_url = function_exists( 'duc_bds_get_thumbnail_url' ) ? duc_bds_get_thumbnail_url( $post_id, 'large' ) : '';
-		
-		echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
-		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
-		echo '<meta property="og:type" content="article">' . "\n";
-		echo '<meta property="og:url" content="' . esc_url( get_permalink( $post_id ) ) . '">' . "\n";
-		if ( $img_url ) {
-			echo '<meta property="og:image" content="' . esc_url( $img_url ) . '">' . "\n";
-		}
-	}
-	?>
-
 	<?php wp_head(); ?>
 </head>
 

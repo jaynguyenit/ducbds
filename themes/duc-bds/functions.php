@@ -197,6 +197,11 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/blocks.php';
 
 /**
+ * SEO & Meta Tags.
+ */
+require get_template_directory() . '/inc/seo.php';
+
+/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
