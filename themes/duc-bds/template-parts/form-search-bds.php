@@ -25,7 +25,8 @@ $get_search_terms = function($taxonomy, $label) {
     if (!empty($terms) && !is_wp_error($terms)) {
         foreach ($terms as $term) {
             $selected = ($current_term_slug === $term->slug) ? 'selected' : '';
-            echo '<option value="' . esc_attr($term->slug) . '" ' . $selected . '>' . esc_html($term->name) . '</option>';
+            $indent = isset($term->depth) && $term->depth > 0 ? str_repeat('&nbsp;&nbsp;&nbsp;', $term->depth) : '';
+            echo '<option value="' . esc_attr($term->slug) . '" ' . $selected . '>' . $indent . esc_html($term->name) . '</option>';
         }
     }
 };

@@ -221,23 +221,43 @@ add_filter( 'nav_menu_css_class', 'duc_bds_add_li_class', 10, 3 );
  * @return array|WP_Error Array of terms or WP_Error.
  */
 function duc_bds_get_cached_terms( $taxonomy ) {
-	$transient_key = 'duc_bds_terms_' . $taxonomy;
+	$transient_key = 'duc_bds_terms_v3_' . $taxonomy; // Changed key to v3 to force refresh
 	$terms         = get_transient( $transient_key );
 
 	if ( false === $terms ) {
-		$terms = get_terms(
+		$raw_terms = get_terms(
 			array(
 				'taxonomy'   => $taxonomy,
 				'hide_empty' => false,
+				'orderby'    => 'menu_order',
+				'order'      => 'ASC',
 			)
 		);
 
-		if ( ! is_wp_error( $terms ) ) {
+		if ( ! is_wp_error( $raw_terms ) ) {
+			// Sort terms hierarchically and add depth property
+			$terms = array();
+			duc_bds_sort_terms_hierarchical( $raw_terms, $terms );
 			set_transient( $transient_key, $terms, 12 * HOUR_IN_SECONDS );
+		} else {
+			$terms = $raw_terms;
 		}
 	}
 
 	return $terms;
+}
+
+/**
+ * Helper function to sort terms hierarchically and assign depth.
+ */
+function duc_bds_sort_terms_hierarchical( array $cats, array &$into, $parent_id = 0, $depth = 0 ) {
+	foreach ( $cats as $i => $cat ) {
+		if ( $cat->parent == $parent_id ) {
+			$cat->depth = $depth;
+			$into[]     = $cat;
+			duc_bds_sort_terms_hierarchical( $cats, $into, $cat->term_id, $depth + 1 );
+		}
+	}
 }
 
 /**
@@ -259,7 +279,29 @@ function duc_bds_clear_taxonomy_transients( $term_id, $tt_id, $taxonomy ) {
 	);
 
 	if ( in_array( $taxonomy, $taxonomies_to_clear, true ) ) {
-		delete_transient( 'duc_bds_terms_' . $taxonomy );
+		delete_transient( 'duc_bds_terms_v3_' . $taxonomy );
+	}
+}
+
+/**
+ * Clear ALL taxonomy transients.
+ * Used when plugin "Category Order and Taxonomy Terms Order" updates.
+ */
+function duc_bds_clear_all_taxonomy_transients() {
+	global $wpdb;
+	
+	$taxonomies = array(
+		'loai-bds',
+		'hinh-thuc-bds',
+		'phuong-xa',
+		'loai-duong',
+		'huong-nha',
+		'tinh-trang',
+		'khu-dan-cu',
+	);
+
+	foreach ( $taxonomies as $taxonomy ) {
+		delete_transient( 'duc_bds_terms_v3_' . $taxonomy );
 	}
 }
 
@@ -267,6 +309,9 @@ function duc_bds_clear_taxonomy_transients( $term_id, $tt_id, $taxonomy ) {
 add_action( 'created_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
 add_action( 'edited_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
 add_action( 'delete_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
+
+// Specific hook for "Category Order and Taxonomy Terms Order" plugin
+add_action( 'tto/update-order', 'duc_bds_clear_all_taxonomy_transients' );
 
 /**
  * Extend WordPress search to include ACF field 'ma_bds' and filter by taxonomies
