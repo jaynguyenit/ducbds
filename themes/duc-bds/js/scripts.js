@@ -198,4 +198,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Integrated Native Share for Facebook/Zalo on Mobile
+    const nativeShareBtns = document.querySelectorAll('.share-btn-native');
+    if (nativeShareBtns.length > 0 && navigator.share) {
+        // Only apply special logic for mobile devices
+        const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+
+        if (isMobile) {
+            nativeShareBtns.forEach(btn => {
+                btn.addEventListener('click', async function (e) {
+                    const title = this.getAttribute('data-share-title');
+                    const url = this.getAttribute('data-share-url');
+
+                    if (title && url) {
+                        e.preventDefault(); // Stop link from opening
+                        try {
+                            await navigator.share({
+                                title: title,
+                                url: url
+                            });
+                        } catch (err) {
+                            // If share fails or user cancels, it will just stay on page
+                            // or we could potentially trigger the default behavior as fallback
+                            console.log('Native share failed or cancelled:', err);
+                        }
+                    }
+                });
+            });
+        }
+    }
 });

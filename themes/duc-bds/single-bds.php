@@ -190,7 +190,9 @@ while ( have_posts() ) :
                                 <!-- Facebook Share -->
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" 
                                    target="_blank" 
-                                   class="flex items-center gap-2 px-4 py-2.5 bg-[#1877F2] text-white rounded-xl text-sm font-bold hover:opacity-90 transition shadow-sm no-underline">
+                                   class="share-btn-native flex items-center gap-2 px-4 py-2.5 bg-[#1877F2] text-white rounded-xl text-sm font-bold hover:opacity-90 transition shadow-sm no-underline"
+                                   data-share-title="<?php echo esc_attr(get_the_title()); ?>"
+                                   data-share-url="<?php echo get_permalink(); ?>">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V1h-4.33C10.24,1,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85Z"/></svg>
                                     Facebook
                                 </a>
@@ -198,7 +200,9 @@ while ( have_posts() ) :
                                 <!-- Zalo Share -->
                                 <a href="https://sp.zalo.me/share_inline?url=<?php echo urlencode(get_permalink()); ?>" 
                                    target="_blank" 
-                                   class="flex items-center gap-2 px-4 py-2.5 bg-[#0068ff] text-white rounded-xl text-sm font-bold hover:opacity-90 transition shadow-sm no-underline">
+                                   class="share-btn-native flex items-center gap-2 px-4 py-2.5 bg-[#0068ff] text-white rounded-xl text-sm font-bold hover:opacity-90 transition shadow-sm no-underline"
+                                   data-share-title="<?php echo esc_attr(get_the_title()); ?>"
+                                   data-share-url="<?php echo get_permalink(); ?>">
                                     <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2C6.48 2 2 5.58 2 10c0 1.87.79 3.59 2.1 4.89l-.51 2.37c-.12.56.38 1.05.93.9l2.45-.69C8.35 17.89 10.11 18 12 18c5.52 0 10-3.58 10-8s-4.48-8-10-8zm5 11h-5.61l5.51-5.61c.14-.14.21-.33.21-.52 0-.39-.31-.71-.7-.71h-6.41c-.28 0-.5.22-.5.5s.22.5.5.5h5.11l-5.01 5.1c-.14.15-.22.34-.22.54 0 .41.33.74.74.74h6.31c.28 0 .5-.21.5-.49 0-.28-.21-.5-.43-.5z" /></svg>
                                     Zalo
                                 </a>
