@@ -255,7 +255,7 @@ while ( have_posts() ) :
 								<?php if(get_field('zalo','option')){ ?>
 									<a href="https://zalo.me/<?php echo get_field('zalo','option'); ?>" class="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition no-underline group">
 										<div class="bg-white text-primary p-2.5 rounded-xl group-hover:scale-110 transition duration-300">
-											<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+											<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M12 2C6.48 2 2 5.58 2 10c0 1.87.79 3.59 2.1 4.89l-.51 2.37c-.12.56.38 1.05.93.9l2.45-.69C8.35 17.89 10.11 18 12 18c5.52 0 10-3.58 10-8s-4.48-8-10-8zm5 11h-5.61l5.51-5.61c.14-.14.21-.33.21-.52 0-.39-.31-.71-.7-.71h-6.41c-.28 0-.5.22-.5.5s.22.5.5.5h5.11l-5.01 5.1c-.14.15-.22.34-.22.54 0 .41.33.74.74.74h6.31c.28 0 .5-.21.5-.49 0-.28-.21-.5-.43-.5z" /></svg>
 										</div>
 										<div>
 											<p class="text-[10px] text-white/60 uppercase font-bold">Zalo tư vấn</p>
@@ -289,7 +289,7 @@ while ( have_posts() ) :
         <div class="grid grid-cols-2 gap-3 max-w-xl mx-auto">
 			<?php if(get_field('zalo','option')){ ?>
 				<a href="https://zalo.me/<?php echo get_field('zalo','option'); ?>" class="flex items-center justify-center gap-2 bg-primary text-white font-bold py-3.5 rounded-2xl text-[13px] shadow-lg shadow-primary/20 active:scale-95 transition-transform duration-200">
-					<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.654 1.439 5.166L2 22l4.908-1.402C8.366 21.493 10.116 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.15-.434-4.437-1.196L4.5 20l1.176-3.125C4.85 15.65 4 13.91 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+					<svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2C6.48 2 2 5.58 2 10c0 1.87.79 3.59 2.1 4.89l-.51 2.37c-.12.56.38 1.05.93.9l2.45-.69C8.35 17.89 10.11 18 12 18c5.52 0 10-3.58 10-8s-4.48-8-10-8zm5 11h-5.61l5.51-5.61c.14-.14.21-.33.21-.52 0-.39-.31-.71-.7-.71h-6.41c-.28 0-.5.22-.5.5s.22.5.5.5h5.11l-5.01 5.1c-.14.15-.22.34-.22.54 0 .41.33.74.74.74h6.31c.28 0 .5-.21.5-.49 0-.28-.21-.5-.43-.5z" /></svg>
 					Zalo tư vấn
 				</a>
 			<?php } ?>

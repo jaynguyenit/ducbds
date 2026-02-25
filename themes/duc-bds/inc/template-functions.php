@@ -172,9 +172,10 @@ function duc_bds_get_breadcrumbs() {
 		if ( is_post_type_archive( 'bds' ) || is_singular( 'bds' ) || is_tax( array( 'loai-bds', 'hinh-thuc-bds', 'phuong-xa', 'loai-duong', 'huong-nha', 'tinh-trang', 'khu-dan-cu' ) ) ) {
 			
 			// Custom path for Real Estate
+			$bds_page_link = get_field( 'trang_bds', 'options' );
 			$breadcrumbs[] = array(
 				'name' => 'Bất động sản',
-				'url'  => get_post_type_archive_link( 'bds' ),
+				'url'  => $bds_page_link ? $bds_page_link : get_post_type_archive_link( 'bds' ),
 			);
 
 			if ( is_singular( 'bds' ) ) {

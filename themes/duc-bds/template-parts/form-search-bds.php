@@ -60,67 +60,80 @@ if ($is_compact) {
         <?php if (!$only_drawer) : ?>
             <!-- Desktop Compact Bar (Hidden on Mobile/Tablet) -->
             <div class="hidden xl:block px-2 md:px-0">
-                <div class="flex items-center gap-1.5 md:gap-2">
-                    <!-- Icon Lọc - Cố định -->
-                    <div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-gray-50 rounded-full text-[13px] md:text-sm font-semibold text-gray-700 border border-gray-200">
-                        <svg class="w-3.5 h-3.5 md:w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293-.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                        <span>Lọc</span>
+                <div class="flex flex-col gap-3 py-1">
+                    <!-- Row 1: Keyword Search -->
+                    <div class="relative w-full max-w-2xl">
+                        <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
+                               placeholder="Nhập tiêu đề hoặc mã BĐS..." 
+                               class="appearance-none w-full border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm font-medium focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition bg-gray-50/50 hover:bg-white focus:bg-white text-gray-700 shadow-sm">
+                        <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
 
-                    <!-- Vùng scrollable cho các bộ lọc -->
-                    <div class="flex-grow flex items-center gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide no-scrollbar py-0.5 touch-pan-x overscroll-x-contain">
-                        <?php 
-                        $compact_selects = array(
-                            'hinh-thuc-bds' => 'Hình thức',
-                            'loai-bds'      => 'Loại hình BĐS',
-                            'phuong-xa'     => 'Khu vực',
-                            'huong-nha'     => 'Hướng',
-                            'khu-dan-cu'    => 'Khu dân cư'
-                        );
+                    <!-- Row 2: Filters & Apply Button -->
+                    <div class="flex items-center gap-2">
+                        <!-- Icon Lọc - Cố định -->
+                        <div class="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full text-[13px] font-semibold text-gray-700 border border-gray-200">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293-.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                            <span>Lọc theo</span>
+                        </div>
 
-                        foreach ($compact_selects as $tax => $label) : 
-                            $has_val = (isset($_GET[$tax]) && !empty($_GET[$tax])) || is_tax($tax);
-                            $item_bg = $has_val ? 'bg-black border-black text-white' : 'bg-white border-gray-200 text-gray-700';
-                            $icon_color = $has_val ? 'text-white' : 'text-gray-400';
-                        ?>
+                        <!-- Vùng scrollable cho các bộ lọc -->
+                        <div class="flex-grow flex items-center gap-2 overflow-x-auto scrollbar-hide no-scrollbar py-0.5 touch-pan-x overscroll-x-contain">
+                            <?php 
+                            $compact_selects = array(
+                                'hinh-thuc-bds' => 'Hình thức',
+                                'loai-bds'      => 'Loại hình BĐS',
+                                'phuong-xa'     => 'Khu vực',
+                                'huong-nha'     => 'Hướng',
+                                'khu-dan-cu'    => 'Khu dân cư'
+                            );
+
+                            foreach ($compact_selects as $tax => $label) : 
+                                $has_val = (isset($_GET[$tax]) && !empty($_GET[$tax])) || is_tax($tax);
+                                $item_bg = $has_val ? 'bg-black border-black text-white' : 'bg-white border-gray-200 text-gray-700';
+                                $icon_color = $has_val ? 'text-white' : 'text-gray-400';
+                            ?>
+                                <div class="relative flex-shrink-0">
+                                    <select name="<?php echo esc_attr($tax); ?>" class="appearance-none border rounded-full pl-3 pr-7 py-1.5 text-[12px] md:text-sm font-medium focus:outline-none focus:border-primary transition cursor-pointer min-w-[100px] md:min-w-[120px] <?php echo $item_bg; ?>">
+                                        <?php $get_search_terms($tax, $label); ?>
+                                    </select>
+                                    <svg class="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 <?php echo $icon_color; ?> pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            <?php endforeach; ?>
+
+                            <!-- Khoảng giá -->
+                            <?php 
+                                $has_gia = (isset($_GET['khoang-gia']) && !empty($_GET['khoang-gia']));
+                                $gia_bg = $has_gia ? 'bg-black border-black text-white' : 'bg-white border-gray-200 text-gray-700';
+                                $gia_icon = $has_gia ? 'text-white' : 'text-gray-400';
+                            ?>
                             <div class="relative flex-shrink-0">
-                                <select name="<?php echo esc_attr($tax); ?>" class="appearance-none border rounded-full pl-2.5 pr-6 md:pl-3 md:pr-7 py-1.5 md:py-2 text-[12px] md:text-sm font-medium focus:outline-none focus:border-primary transition cursor-pointer min-w-[90px] md:min-w-[110px] <?php echo $item_bg; ?>">
-                                    <?php $get_search_terms($tax, $label); ?>
+                                <select name="khoang-gia" class="appearance-none border rounded-full pl-3 pr-7 py-1.5 text-[12px] md:text-sm font-medium focus:outline-none focus:border-primary transition cursor-pointer min-w-[110px] md:min-w-[130px] <?php echo $gia_bg; ?>">
+                                    <option value="">Khoảng giá</option>
+                                    <option value="1000-3000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '1000-3000') ? 'selected' : ''; ?>>1 - 3 tỷ</option>
+                                    <option value="3000-5000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '3000-5000') ? 'selected' : ''; ?>>3 - 5 tỷ</option>
+                                    <option value="5000-10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '5000-10000') ? 'selected' : ''; ?>>5 - 10 tỷ</option>
+                                    <option value="10000-50000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000-50000') ? 'selected' : ''; ?>>10 - 50 tỷ</option>
+                                    <option value="50000-100000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '50000-100000') ? 'selected' : ''; ?>>50 - 100 tỷ</option>
+                                    <option value="500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500000') ? 'selected' : ''; ?>>Dưới 500 tỷ</option>
+                                    <option value=">500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '>500000') ? 'selected' : ''; ?>>Trên 500 tỷ</option>
                                 </select>
-                                <svg class="w-3 h-3 md:w-4 h-4 absolute right-2 md:right-3 top-1/2 -translate-y-1/2 <?php echo $icon_color; ?> pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 <?php echo $gia_icon; ?> pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </div>
-                        <?php endforeach; ?>
-
-                        <!-- Khoảng giá -->
-                        <?php 
-                            $has_gia = (isset($_GET['khoang-gia']) && !empty($_GET['khoang-gia']));
-                            $gia_bg = $has_gia ? 'bg-black border-black text-white' : 'bg-white border-gray-200 text-gray-700';
-                            $gia_icon = $has_gia ? 'text-white' : 'text-gray-400';
-                        ?>
-                        <div class="relative flex-shrink-0">
-                            <select name="khoang-gia" class="appearance-none border rounded-full pl-2.5 pr-6 md:pl-3 md:pr-7 py-1.5 md:py-2 text-[12px] md:text-sm font-medium focus:outline-none focus:border-primary transition cursor-pointer min-w-[95px] md:min-w-[120px] <?php echo $gia_bg; ?>">
-                                <option value="">Khoảng giá</option>
-                                <option value="1000-3000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '1000-3000') ? 'selected' : ''; ?>>1 - 3 tỷ</option>
-                                <option value="3000-5000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '3000-5000') ? 'selected' : ''; ?>>3 - 5 tỷ</option>
-                                <option value="5000-10000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '5000-10000') ? 'selected' : ''; ?>>5 - 10 tỷ</option>
-                                <option value="10000-50000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '10000-50000') ? 'selected' : ''; ?>>10 - 50 tỷ</option>
-                                <option value="50000-100000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '50000-100000') ? 'selected' : ''; ?>>50 - 100 tỷ</option>
-                                <option value="500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '500000') ? 'selected' : ''; ?>>Dưới 500 tỷ</option>
-                                <option value=">500000" <?php echo (isset($_GET['khoang-gia']) && $_GET['khoang-gia'] == '>500000') ? 'selected' : ''; ?>>Trên 500 tỷ</option>
-                            </select>
-                            <svg class="w-3 h-3 md:w-4 h-4 absolute right-2 md:right-3 top-1/2 -translate-y-1/2 <?php echo $gia_icon; ?> pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
                         </div>
-                    </div>
 
-                    <!-- Nút Submit - Desktop -->
-                    <div class="flex-shrink-0 flex items-center gap-1.5 ml-1">
-                        <button type="submit" class="bg-primary hover:bg-black text-white px-5 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition whitespace-nowrap">
-                            Áp dụng
-                        </button>
+                        <!-- Nút Submit - Desktop -->
+                        <div class="flex-shrink-0 ml-1">
+                            <button type="submit" class="bg-primary hover:bg-black text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition whitespace-nowrap">
+                                Áp dụng
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,7 +167,7 @@ if ($is_compact) {
                             <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Từ khóa / Mã BĐS</label>
                             <div class="relative">
                                 <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
-                                       placeholder="VD: BDS123, Vincity..." 
+                                       placeholder="Nhập tiêu đề hoặc mã BĐS..." 
                                        class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 focus:border-primary focus:bg-white outline-none transition shadow-sm">
                                 <svg class="w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                             </div>
