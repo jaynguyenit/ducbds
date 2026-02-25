@@ -3,6 +3,7 @@
 
 # Un-ignore necessary directories/files
 !/themes
+!/plugins
 !.gitignore
 
 # Ignore everything inside themes
@@ -10,3 +11,10 @@
 
 # Un-ignore duc-bds theme
 !/themes/duc-bds
+
+# Ignore everything inside plugins
+/plugins/*
+
+# Un-ignore jay-core plugin
+!/plugins/jay-core
+

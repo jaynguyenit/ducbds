@@ -269,13 +269,15 @@ add_action( 'edited_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
 add_action( 'delete_term', 'duc_bds_clear_taxonomy_transients', 10, 3 );
 
 /**
- * Extend WordPress search to include ACF field 'ma_bds'
+ * Extend WordPress search to include ACF field 'ma_bds' and filter by taxonomies
  */
 function duc_bds_extend_search( $query ) {
     if ( ! is_admin() && $query->is_main_query() && ( $query->is_search() || $query->is_post_type_archive('bds') || $query->is_tax() ) ) {
         
         $meta_query = array( 'relation' => 'AND' );
-        $has_meta = false;
+        $tax_query  = array( 'relation' => 'AND' );
+        $has_meta   = false;
+        $has_tax    = false;
 
         // 1. Extend search to include ACF field 'ma_bds'
         if ( $query->is_search() ) {
@@ -290,7 +292,29 @@ function duc_bds_extend_search( $query ) {
             }
         }
 
-        // 2. Handle Price Range (khoang-gia)
+        // 2. Handle Taxonomies
+        $taxonomies = array(
+            'hinh-thuc-bds',
+            'loai-bds',
+            'phuong-xa',
+            'loai-duong',
+            'huong-nha',
+            'tinh-trang',
+            'khu-dan-cu'
+        );
+
+        foreach ( $taxonomies as $taxonomy ) {
+            if ( isset( $_GET[$taxonomy] ) && ! empty( $_GET[$taxonomy] ) ) {
+                $tax_query[] = array(
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => sanitize_text_field( $_GET[$taxonomy] ),
+                );
+                $has_tax = true;
+            }
+        }
+
+        // 3. Handle Price Range (khoang-gia)
         if ( isset( $_GET['khoang-gia'] ) && ! empty( $_GET['khoang-gia'] ) ) {
             $range = explode( '-', $_GET['khoang-gia'] );
             
@@ -306,30 +330,41 @@ function duc_bds_extend_search( $query ) {
                 );
                 $has_meta = true;
             } elseif ( count( $range ) === 1 ) {
-                $val = intval( $range[0] ) * 1000000;
+                // Handle cases like "500000" (Dưới 500 tỷ) or ">500000" (Trên 500 tỷ)
+                $raw_val = $_GET['khoang-gia'];
+                $val = intval( ltrim( $raw_val, '>' ) ) * 1000000;
                 
-                if ( strpos( $_GET['khoang-gia'], '<' ) !== false || $_GET['khoang-gia'] == '500000' ) { // Dưới 500 tỷ hoặc logic tương tự
+                if ( strpos( $raw_val, '>' ) !== false ) {
                     $meta_query[] = array(
                         'key'     => 'gia',
                         'value'   => $val,
                         'type'    => 'numeric',
-                        'compare' => '<=',
+                        'compare' => '>',
                     );
                 } else {
                     $meta_query[] = array(
                         'key'     => 'gia',
                         'value'   => $val,
                         'type'    => 'numeric',
-                        'compare' => '>=',
+                        'compare' => '<=',
                     );
                 }
-                 $has_meta = true;
+                $has_meta = true;
             }
         }
 
         if ( $has_meta ) {
             $query->set( 'meta_query', $meta_query );
         }
+        if ( $has_tax ) {
+            $query->set( 'tax_query', $tax_query );
+        }
+
+        // Ensure post type is only BDS when searching or filtering
+        if ( $query->is_search() || $has_tax || $has_meta ) {
+             $query->set( 'post_type', 'bds' );
+        }
     }
 }
 add_action( 'pre_get_posts', 'duc_bds_extend_search' );
+
