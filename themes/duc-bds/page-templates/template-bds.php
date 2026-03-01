@@ -61,19 +61,8 @@ $query = new WP_Query( $args );
                 ?>
             </div>
 
-            <div class="mt-12">
-                <?php 
-                $big = 999999999;
-                echo paginate_links( array(
-                    'base'    => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-                    'format'  => '?paged=%#%',
-                    'current' => max( 1, $paged ),
-                    'total'   => $query->max_num_pages,
-                    'type'    => 'list',
-                    'prev_text' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>',
-                    'next_text' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>',
-                ) );
-                ?>
+            <div class="mt-4">
+                <?php duc_bds_pagination($query); ?>
             </div>
             <?php wp_reset_postdata(); ?>
 

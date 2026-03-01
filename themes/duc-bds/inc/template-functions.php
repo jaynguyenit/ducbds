@@ -256,10 +256,11 @@ function duc_bds_get_breadcrumbs() {
 /**
  * Display pagination with Tailwind CSS
  */
-function duc_bds_pagination() {
+function duc_bds_pagination($custom_query = null) {
     global $wp_query;
+    $query = $custom_query ? $custom_query : $wp_query;
 
-    $total_pages = $wp_query->max_num_pages;
+    $total_pages = $query->max_num_pages;
 
     if ($total_pages <= 1) {
         return;
@@ -279,16 +280,17 @@ function duc_bds_pagination() {
     ));
 
     if (is_array($links)) {
-        echo '<nav class="flex justify-center" aria-label="Pagination">';
-        echo '<ul class="flex items-center gap-2 list-none p-0 m-0">';
+        echo '<nav class="flex justify-center mt-12" aria-label="Pagination">';
+        echo '<ul class="flex items-center gap-2.5 list-none p-0 m-0">';
 
         foreach ($links as $link) {
-            $class = "inline-flex items-center justify-center w-10 h-10 rounded-xl text-sm font-semibold transition-all duration-200 border no-underline";
+            $is_current = str_pos($link, 'current') !== false;
+            $class = "inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-xl text-sm font-bold transition-all duration-300 border no-underline";
             
             if (strpos($link, 'current') !== false) {
-                $class .= " bg-primary border-primary text-white shadow-lg shadow-indigo-100";
+                $class .= " bg-primary border-primary text-white shadow-lg shadow-primary/30 active:scale-95";
             } else {
-                $class .= " bg-white border-gray-200 text-gray-600 hover:border-primary hover:text-primary hover:shadow-sm";
+                $class .= " bg-white border-gray-200 text-gray-600 hover:border-primary hover:text-primary hover:shadow-md hover:-translate-y-0.5 active:scale-95";
             }
 
             echo '<li>' . str_replace('page-numbers', $class, $link) . '</li>';

@@ -82,11 +82,24 @@ while ( have_posts() ) :
 								<div class="hidden md:flex swiper-button-prev !text-white !bg-black/20 hover:!bg-black/40 !w-8 !h-8 !rounded-full after:!text-[12px] opacity-0 group-hover:opacity-100 transition"></div>
 							</div>
 
+                            <style>
+                                .bds-thumb-slider .swiper-slide {
+                                    opacity: 0.4;
+                                    transition: all 0.3s ease;
+                                    border: 2px solid transparent;
+                                }
+                                .bds-thumb-slider .swiper-slide-thumb-active {
+                                    opacity: 1;
+                                    border-color: #eab308; /* primary color */
+                                    transform: scale(1.02);
+                                }
+                            </style>
+
 							<!-- Thumbs Swiper -->
 							<div class="swiper bds-thumb-slider h-16 sm:h-20 lg:h-24 mt-2">
 								<div class="swiper-wrapper">
 									<?php foreach ( $hinh_anh as $img ) : ?>
-										<div class="swiper-slide rounded-lg overflow-hidden cursor-pointer opacity-60 hover:opacity-100 transition duration-300">
+										<div class="swiper-slide rounded-lg overflow-hidden cursor-pointer">
 											<img src="<?php echo esc_url( $img['sizes']['thumbnail'] ); ?>" 
 												 alt="<?php echo esc_attr( $img['alt'] ); ?>" 
 												 class="w-full h-full object-cover">
