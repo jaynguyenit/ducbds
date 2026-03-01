@@ -24,42 +24,50 @@ if ( ! empty( $block['align'] ) ) {
 }
 
 // Load values and assign defaults.
-$title          = get_field( 'title' ) ?: 'Bất động sản nổi bật';
-$posts_per_page = get_field( 'posts_per_page' ) ?: 5;
-
-// Taxonomies to check
-$taxonomies = array(
-	'loai-bds',
-	'hinh-thuc-bds',
-	'phuong-xa',
-	'loai-duong',
-	'huong-nha',
-	'tinh-trang',
-);
+$title               = get_field( 'title' ) ?: 'Bất động sản nổi bật';
+$posts_per_page      = get_field( 'posts_per_page' ) ?: 5;
+$selected_properties = get_field( 'selected_properties' );
 
 // Build Query
 $args = array(
 	'post_type'      => 'bds',
 	'posts_per_page' => $posts_per_page,
-	'tax_query'      => array(
-		'relation' => 'AND',
-	),
 );
 
-foreach ( $taxonomies as $taxonomy ) {
-	$terms = get_field( 'terms_' . $taxonomy );
-	if ( ! empty( $terms ) ) {
-		$args['tax_query'][] = array(
-			'taxonomy' => $taxonomy,
-			'field'    => 'term_id',
-			'terms'    => $terms,
-		);
-	}
-}
+if ( ! empty( $selected_properties ) ) {
+	// If manual selection is present, prioritize it
+	$args['post__in'] = $selected_properties;
+	$args['orderby']  = 'post__in';
+} else {
+	// Fallback to taxonomy filtering
+	$taxonomies = array(
+		'loai-bds',
+		'hinh-thuc-bds',
+		'phuong-xa',
+		'loai-duong',
+		'huong-nha',
+		'tinh-trang',
+	);
 
-// If no taxonomies are selected, remove tax_query to show all properties
-if ( count( $args['tax_query'] ) === 1 ) {
-	unset( $args['tax_query'] );
+	$args['tax_query'] = array(
+		'relation' => 'AND',
+	);
+
+	foreach ( $taxonomies as $taxonomy ) {
+		$terms = get_field( 'terms_' . $taxonomy );
+		if ( ! empty( $terms ) ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => $taxonomy,
+				'field'    => 'term_id',
+				'terms'    => $terms,
+			);
+		}
+	}
+
+	// If no taxonomies are selected, remove tax_query to show all properties
+	if ( count( $args['tax_query'] ) === 1 ) {
+		unset( $args['tax_query'] );
+	}
 }
 
 $query = new WP_Query( $args );

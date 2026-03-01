@@ -51,6 +51,16 @@ function duc_bds_register_block_fields() {
 				'title'    => 'Cấu hình Khối Danh sách BĐS',
 				'fields'   => array(
 					array(
+						'key'           => 'field_block_pl_selected',
+						'label'         => 'Chọn BĐS cụ thể',
+						'name'          => 'selected_properties',
+						'type'          => 'relationship',
+						'instructions'  => 'Nếu chọn BĐS ở đây, các bộ lọc phân loại bên dưới sẽ bị bỏ qua. Để trống để tự động hiển thị theo bộ lọc.',
+						'post_type'     => array( 'bds' ),
+						'filters'       => array( 'search', 'taxonomy' ),
+						'return_format' => 'id',
+					),
+					array(
 						'key'   => 'field_block_pl_title',
 						'label' => 'Tiêu đề khối',
 						'name'  => 'title',
