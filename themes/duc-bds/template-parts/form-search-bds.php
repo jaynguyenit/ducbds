@@ -94,84 +94,86 @@ if ($is_compact) {
         <?php if (!$only_drawer) : ?>
             <!-- Desktop Compact Bar (Theo style Trang chủ) -->
             <div class="hidden xl:block">
-                <div class="space-y-6 py-4">
-                    <!-- Keyword search -->
-                    <div class="relative">
-                        <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
-                               placeholder="Nhập tiêu đề hoặc mã BĐS..." 
-                               class="w-full border border-gray-100 rounded-xl px-4 py-3 focus:border-primary focus:bg-white outline-none transition bg-gray-50/50">
-                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        </div>
-                    </div>
-
-                    <!-- Filter Links (Hinh thuc & Loai hinh) -->
-                    <div class="flex flex-wrap gap-x-2 gap-y-4 items-center">
-                        <div class="flex flex-wrap gap-2">
-                            <?php
-                            $hinh_thuc_terms = duc_bds_get_cached_terms('hinh-thuc-bds');
-                            $current_hinh_thuc = isset($_GET['hinh-thuc-bds']) ? $_GET['hinh-thuc-bds'] : '';
-                            if (!empty($hinh_thuc_terms) && !is_wp_error($hinh_thuc_terms)) :
-                                foreach ($hinh_thuc_terms as $term) :
-                                    $checked = (is_array($current_hinh_thuc) ? in_array($term->slug, $current_hinh_thuc) : ($current_hinh_thuc == $term->slug)) ? 'checked' : '';
-                            ?>
-                                <label class="cursor-pointer">
-                                    <input type="checkbox" name="hinh-thuc-bds[]" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo $checked; ?>>
-                                    <span class="px-5 py-2 rounded-full border border-gray-100 text-[13px] font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-600 bg-gray-50/50"><?php echo esc_html($term->name); ?></span>
-                                </label>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
+                <div class="py-4">
+                    <p class="text-xl md:text-2xl font-bold text-gray-900 mb-6">Tìm kiếm Bất Động Sản</p>
+                    <div class="space-y-6">
+                        <!-- Keyword search -->
+                        <div class="relative">
+                            <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
+                                   placeholder="Nhập tiêu đề hoặc mã BĐS..." 
+                                   class="w-full border border-gray-100 rounded-xl px-4 py-3 focus:border-primary focus:bg-white outline-none transition bg-gray-50/50">
+                            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            </div>
                         </div>
 
-                        <div class="w-px h-6 bg-gray-200 mx-1"></div>
+                        <!-- Filter Links (Hinh thuc & Loai hinh) -->
+                        <div class="flex flex-wrap gap-x-2 gap-y-4 items-center">
+                            <div class="flex flex-wrap gap-2">
+                                <?php
+                                $hinh_thuc_terms = duc_bds_get_cached_terms('hinh-thuc-bds');
+                                $current_hinh_thuc = isset($_GET['hinh-thuc-bds']) ? $_GET['hinh-thuc-bds'] : '';
+                                if (!empty($hinh_thuc_terms) && !is_wp_error($hinh_thuc_terms)) :
+                                    foreach ($hinh_thuc_terms as $term) :
+                                        $checked = (is_array($current_hinh_thuc) ? in_array($term->slug, $current_hinh_thuc) : ($current_hinh_thuc == $term->slug)) ? 'checked' : '';
+                                ?>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="hinh-thuc-bds[]" value="<?php echo esc_attr($term->slug); ?>" class="peer hidden" <?php echo $checked; ?>>
+                                        <span class="px-5 py-2 rounded-full border border-gray-100 text-[13px] font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-600 bg-gray-50/50"><?php echo esc_html($term->name); ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
 
-                        <div class="flex flex-wrap gap-2">
-                            <?php
-                            $featured_loai_ids = get_field('loại_hinh_bds_noi_bat', 'options');
-                            if (!empty($featured_loai_ids)) {
-                                $loai_bds_terms = get_terms(array(
-                                    'taxonomy'   => 'loai-bds',
-                                    'include'    => $featured_loai_ids,
-                                    'hide_empty' => false,
-                                    'orderby'    => 'include',
-                                ));
-                                
-                                $current_loai = isset($_GET['loai-bds']) ? $_GET['loai-bds'] : '';
-                                if (!empty($loai_bds_terms) && !is_wp_error($loai_bds_terms)) {
-                                    foreach ($loai_bds_terms as $term) {
-                                        $checked = (is_array($current_loai) ? in_array($term->slug, $current_loai) : ($current_loai === $term->slug)) ? 'checked' : '';
-                                        echo '<label class="cursor-pointer">
-                                                <input type="checkbox" name="loai-bds[]" value="' . esc_attr($term->slug) . '" class="peer hidden" ' . $checked . '>
-                                                <span class="px-5 py-2 rounded-full border border-gray-100 text-[13px] font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-600 bg-gray-50/50">' . esc_html($term->name) . '</span>
-                                            </label>';
+                            <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+                            <div class="flex flex-wrap gap-2">
+                                <?php
+                                $featured_loai_ids = get_field('loại_hinh_bds_noi_bat', 'options');
+                                if (!empty($featured_loai_ids)) {
+                                    $loai_bds_terms = get_terms(array(
+                                        'taxonomy'   => 'loai-bds',
+                                        'include'    => $featured_loai_ids,
+                                        'hide_empty' => false,
+                                        'orderby'    => 'include',
+                                    ));
+                                    
+                                    $current_loai = isset($_GET['loai-bds']) ? $_GET['loai-bds'] : '';
+                                    if (!empty($loai_bds_terms) && !is_wp_error($loai_bds_terms)) {
+                                        foreach ($loai_bds_terms as $term) {
+                                            $checked = (is_array($current_loai) ? in_array($term->slug, $current_loai) : ($current_loai === $term->slug)) ? 'checked' : '';
+                                            echo '<label class="cursor-pointer">
+                                                    <input type="checkbox" name="loai-bds[]" value="' . esc_attr($term->slug) . '" class="peer hidden" ' . $checked . '>
+                                                    <span class="px-5 py-2 rounded-full border border-gray-100 text-[13px] font-semibold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary hover:border-primary transition inline-block text-gray-600 bg-gray-50/50">' . esc_html($term->name) . '</span>
+                                                </label>';
+                                        }
                                     }
                                 }
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <!-- Grid Filter Selects -->
-                    <div class="grid grid-cols-3 gap-4">
-                        <?php 
-                        $compact_filters = array(
-                            'loai-bds'   => 'Loại hình BĐS',
-                            'phuong-xa'  => 'Khu vực',
-                            'huong-nha'  => 'Hướng nhà',
-                            'khu-dan-cu' => 'Khu dân cư'
-                        );
-                        foreach ($compact_filters as $tax => $label) : 
-                        ?>
-                            <div class="relative group">
-                                <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-base xl:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-gray-50/50">
-                                    <?php $get_search_terms($tax, $label, false); ?>
-                                </select>
-                                <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                ?>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
 
-                        <div class="relative custom-price-dropdown" id="price-dropdown-compact">
-                            <button type="button" class="appearance-none w-full border border-[#e5e7eb] rounded-[20px] px-3 py-3 text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-[#f9fafb] flex items-center justify-between group h-[48px]">
+                        <!-- Grid Filter Selects -->
+                        <div class="grid grid-cols-3 gap-4">
+                            <?php 
+                            $compact_filters = array(
+                                'loai-bds'   => 'Loại hình BĐS',
+                                'phuong-xa'  => 'Khu vực',
+                                'huong-nha'  => 'Hướng nhà',
+                                'khu-dan-cu' => 'Khu dân cư'
+                            );
+                            foreach ($compact_filters as $tax => $label) : 
+                            ?>
+                                <div class="relative group">
+                                    <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-base xl:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-gray-50/50">
+                                        <?php $get_search_terms($tax, $label, false); ?>
+                                    </select>
+                                    <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                </div>
+                            <?php endforeach; ?>
+
+                            <div class="relative custom-price-dropdown" id="price-dropdown-compact">
+                                <button type="button" class="appearance-none w-full border border-[#e5e7eb] rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-[#f9fafb] flex items-center justify-between group h-[48px]">
                                 <span class="price-label font-normal" style="color: <?php echo $price_label_color; ?>"><?php echo esc_html($current_price_label); ?></span>
                                 <svg class="w-4 h-4 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </button>
@@ -212,7 +214,8 @@ if ($is_compact) {
                     </div>
                 </div>
             </div>
-        <?php endif; ?>
+        </div>
+<?php endif; ?>
 
         <!-- Mobile/Tablet Drawer Search Overlay & Panel -->
         <div id="mobile-filter-drawer" class="fixed inset-0 z-[9999] opacity-0 invisible transition-all duration-300 pointer-events-none xl:hidden">
@@ -408,7 +411,7 @@ if ($is_compact) {
 
                 <!-- Khoảng giá Custom Dropdown (Home/Sidebar) -->
                 <div class="relative group custom-price-dropdown col-span-1" id="price-dropdown-home">
-                    <button type="button" class="appearance-none w-full border border-gray-200 rounded-xl pl-2 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer text-left flex items-center justify-between bg-white">
+                    <button type="button" class="appearance-none w-full border border-gray-200 rounded-xl pl-2 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer text-left flex items-center justify-between bg-white h-[48px]">
                         <span class="price-label font-normal" style="color: <?php echo $price_label_color; ?>"><?php echo esc_html($current_price_label); ?></span>
                         <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                     </button>
@@ -437,8 +440,8 @@ if ($is_compact) {
                 </div>
 
                 <div class="col-span-2 md:col-span-1 flex gap-2">
-                    <button type="button" class="reset-search-form py-3 md:py-3.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap">Xóa lọc</button>
-                    <button type="submit" class="flex-1 bg-primary hover:bg-black text-white font-bold py-3 md:py-3.5 rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm kiếm ngay</button>
+                    <button type="button" class="reset-search-form h-[48px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap">Xóa lọc</button>
+                    <button type="submit" class="flex-1 h-[48px] bg-primary hover:bg-black text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm kiếm ngay</button>
                 </div>
             </div>
         </div>

@@ -29,20 +29,23 @@ get_header();
                         }
                         ?>
                     </span>
-					<!-- Mobile/Tablet Filter Trigger -->
-					<button type="button" class="open-filter-drawer xl:hidden flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-700 shadow-sm active:scale-95 transition">
-                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                        Lọc
-                    </button>
 				</h1>
 				<?php if(is_tax()): ?>
 					<p class="text-gray-500 mt-1"><?php echo strip_tags(get_the_archive_description()); ?></p>
 				<?php endif; ?>
 			</div>
 			
-			<div class="text-sm text-gray-500 hidden md:block">
-				Hiển thị <?php echo $wp_query->post_count; ?> trên tổng số <?php echo $wp_query->found_posts; ?> bản tin
-			</div>
+			<div class="flex items-center gap-4">
+                <div class="text-sm text-gray-500 hidden md:block">
+                    Hiển thị <?php echo $wp_query->post_count; ?> trên tổng số <?php echo $wp_query->found_posts; ?> bản tin
+                </div>
+
+                <!-- Mobile/Tablet Filter Trigger -->
+                <button type="button" class="open-filter-drawer xl:hidden flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[13px] font-bold text-gray-700 shadow-sm active:scale-95 transition whitespace-nowrap">
+                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                    Lọc
+                </button>
+            </div>
 		</div>
 
 		<?php if ( have_posts() ) : ?>

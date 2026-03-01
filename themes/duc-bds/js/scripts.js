@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 style.innerHTML = `
                     /* Main Selection Box */
                     .select2-container--default .select2-selection--multiple {
-                        border-radius: 0.75rem;
+                        border-radius: 0.75rem !important;
                         border-color: #e5e7eb;
                         padding: 0 12px !important;
                         min-height: 48px;
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                     /* Dropdown Menu - Simplified (No Checkboxes) */
                     .select2-dropdown {
-                        border-radius: 1rem;
+                        border-radius: 0.75rem !important;
                         border: 1px solid #f3f4f6;
                         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
                         z-index: 99999;
