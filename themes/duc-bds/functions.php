@@ -163,7 +163,12 @@ function duc_bds_scripts() {
 	}
 	
 	wp_enqueue_script( 'duc-bds-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-	wp_enqueue_script( 'duc-bds-scripts', get_template_directory_uri() . '/js/scripts.js', array(), _S_VERSION, true );
+	
+	// Enqueue Select2
+	wp_enqueue_style( 'select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0' );
+	wp_enqueue_script( 'select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array( 'jquery' ), '4.1.0', true );
+
+	wp_enqueue_script( 'duc-bds-scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery', 'select2'), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -355,22 +360,54 @@ function duc_bds_extend_search( $query ) {
 
         foreach ( $taxonomies as $taxonomy ) {
             if ( isset( $_GET[$taxonomy] ) && ! empty( $_GET[$taxonomy] ) ) {
-                $tax_query[] = array(
-                    'taxonomy' => $taxonomy,
-                    'field'    => 'slug',
-                    'terms'    => sanitize_text_field( $_GET[$taxonomy] ),
-                );
-                $has_tax = true;
+                $terms = $_GET[$taxonomy];
+                
+                // Convert to array if it is a single string but Select2 uses array
+                if ( ! is_array( $terms ) ) {
+                    $terms = array( sanitize_text_field( $terms ) );
+                } else {
+                    $terms = array_map( 'sanitize_text_field', $terms );
+                }
+
+                // Filter out empty values
+                $terms = array_filter($terms);
+
+                if (!empty($terms)) {
+                    $tax_query[] = array(
+                        'taxonomy' => $taxonomy,
+                        'field'    => 'slug',
+                        'terms'    => $terms,
+                        'operator' => 'IN',
+                    );
+                    $has_tax = true;
+                }
             }
         }
 
-        // 3. Handle Price Range (khoang-gia)
-        if ( isset( $_GET['khoang-gia'] ) && ! empty( $_GET['khoang-gia'] ) ) {
+        // 3. Handle Price Range (khoang-gia, gia_min, gia_max)
+        $min_val = isset($_GET['gia_min']) ? intval($_GET['gia_min']) : 0;
+        $max_val = isset($_GET['gia_max']) ? intval($_GET['gia_max']) : 0;
+
+        if ($min_val > 0 || $max_val > 0) {
+            $price_query = array('key' => 'gia', 'type' => 'numeric');
+            if ($min_val > 0 && $max_val > 0) {
+                $price_query['value'] = array($min_val * 1000, $max_val * 1000);
+                $price_query['compare'] = 'BETWEEN';
+            } elseif ($min_val > 0) {
+                $price_query['value'] = $min_val * 1000;
+                $price_query['compare'] = '>=';
+            } else {
+                $price_query['value'] = $max_val * 1000;
+                $price_query['compare'] = '<=';
+            }
+            $meta_query[] = $price_query;
+            $has_meta = true;
+        } elseif ( isset( $_GET['khoang-gia'] ) && ! empty( $_GET['khoang-gia'] ) ) {
             $range = explode( '-', $_GET['khoang-gia'] );
             
             if ( count( $range ) === 2 ) {
-                $min = intval( $range[0] ) * 1000000;
-                $max = intval( $range[1] ) * 1000000;
+                $min = intval( $range[0] );
+                $max = intval( $range[1] );
                 
                 $meta_query[] = array(
                     'key'     => 'gia',
@@ -382,7 +419,7 @@ function duc_bds_extend_search( $query ) {
             } elseif ( count( $range ) === 1 ) {
                 // Handle cases like "500000" (Dưới 500 tỷ) or ">500000" (Trên 500 tỷ)
                 $raw_val = $_GET['khoang-gia'];
-                $val = intval( ltrim( $raw_val, '>' ) ) * 1000000;
+                $val = intval( ltrim( $raw_val, '>' ) );
                 
                 if ( strpos( $raw_val, '>' ) !== false ) {
                     $meta_query[] = array(
