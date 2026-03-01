@@ -284,7 +284,7 @@ function duc_bds_pagination($custom_query = null) {
         echo '<ul class="flex items-center gap-2.5 list-none p-0 m-0">';
 
         foreach ($links as $link) {
-            $is_current = str_pos($link, 'current') !== false;
+            $is_current = strpos($link, 'current') !== false;
             $class = "inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-xl text-sm font-bold transition-all duration-300 border no-underline";
             
             if (strpos($link, 'current') !== false) {
