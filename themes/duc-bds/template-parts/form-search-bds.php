@@ -164,7 +164,7 @@ if ($is_compact) {
                             );
                             foreach ($compact_filters as $tax => $label) : 
                             ?>
-                                <div class="relative group">
+                                <div class="relative group skeleton-loading">
                                     <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-base xl:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-gray-50/50">
                                         <?php $get_search_terms($tax, $label, false); ?>
                                     </select>
@@ -172,7 +172,7 @@ if ($is_compact) {
                                 </div>
                             <?php endforeach; ?>
 
-                            <div class="relative custom-price-dropdown" id="price-dropdown-compact">
+                            <div class="relative custom-price-dropdown skeleton-loading" id="price-dropdown-compact">
                                 <button type="button" class="appearance-none w-full border border-[#e5e7eb] rounded-xl px-3 py-3 text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-[#f9fafb] flex items-center justify-between group h-[48px]">
                                 <span class="price-label font-normal" style="color: <?php echo $price_label_color; ?>"><?php echo esc_html($current_price_label); ?></span>
                                 <svg class="w-4 h-4 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
@@ -392,25 +392,25 @@ if ($is_compact) {
 
             <!-- Grid Selects -->
             <div class="<?php echo $is_sidebar ? 'space-y-4' : 'grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4'; ?>">
-                <div class="relative group col-span-2 md:col-span-1">
+                <div class="relative group col-span-2 md:col-span-1 skeleton-loading">
                     <select name="loai-bds[]" multiple="multiple" data-placeholder="Loại hình BĐS" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-bds', 'Loại hình BĐS', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
-                <div class="relative group">
+                <div class="relative group skeleton-loading">
                     <select name="phuong-xa[]" multiple="multiple" data-placeholder="Khu vực" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('phuong-xa', 'Khu vực', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
-                <div class="relative group">
+                <div class="relative group skeleton-loading">
                     <select name="huong-nha[]" multiple="multiple" data-placeholder="Hướng nhà" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('huong-nha', 'Hướng nhà', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
-                <div class="relative group">
+                <div class="relative group skeleton-loading">
                     <select name="khu-dan-cu[]" multiple="multiple" data-placeholder="Khu dân cư" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('khu-dan-cu', 'Khu dân cư', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
 
                 <!-- Khoảng giá Custom Dropdown (Home/Sidebar) -->
-                <div class="relative group custom-price-dropdown col-span-1" id="price-dropdown-home">
+                <div class="relative group custom-price-dropdown col-span-1 skeleton-loading" id="price-dropdown-home">
                     <button type="button" class="appearance-none w-full border border-gray-200 rounded-xl pl-2 pr-8 py-3 text-base md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer text-left flex items-center justify-between bg-white h-[48px]">
                         <span class="price-label font-normal" style="color: <?php echo $price_label_color; ?>"><?php echo esc_html($current_price_label); ?></span>
                         <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>

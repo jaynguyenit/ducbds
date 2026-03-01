@@ -36,6 +36,66 @@ function duc_bds_pingback_header() {
 }
 add_action( 'wp_head', 'duc_bds_pingback_header' );
 
+/**
+ * Fix Flash of Unstyled Content (FOUC) and add Skeleton Loader for Selects/Dropdowns
+ */
+function duc_bds_fouc_fix() {
+    ?>
+    <style>
+        /* Modern Skeleton Shimmer Effect */
+        .skeleton-loading {
+            position: relative !important;
+            overflow: hidden !important;
+            background-color: #f3f4f6 !important; /* gray-100 */
+            border-radius: 12px !important;
+            border-color: #e5e7eb !important; /* gray-200 */
+            color: transparent !important;
+            pointer-events: none !important;
+        }
+
+        .skeleton-loading > * {
+            opacity: 0 !important;
+        }
+
+        .skeleton-loading::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.7) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: duc-bds-shimmer 2s infinite ease-in-out;
+            z-index: 10;
+        }
+
+        @keyframes duc-bds-shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Initial state for Select2 to prevent flicker */
+        .select2-multi:not(.select2-hidden-accessible) {
+            display: none !important;
+        }
+
+        /* Smooth transition when skeleton is removed */
+        .skeleton-loading-ready {
+            transition: opacity 0.4s ease-in-out !important;
+        }
+    </style>
+    <?php
+}
+add_action( 'wp_head', 'duc_bds_fouc_fix' );
+
 
 /**
  * @param array $providers The collection of providers that will be used to scan the design payload

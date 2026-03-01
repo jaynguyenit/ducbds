@@ -98,6 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         closeOnSelect: false
                     });
 
+                    // Remove skeleton loading effect after Select2 is initialized
+                    setTimeout(() => {
+                        $this.closest('.skeleton-loading').addClass('skeleton-loading-ready').removeClass('skeleton-loading');
+                    }, 100);
+
                     // Fix placeholder visibility on initial load and after selection
                     const updatePlaceholder = () => {
                         const $container = $this.next('.select2-container');
@@ -413,6 +418,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     $dropdown.find('.price-opt').removeClass('bg-primary/10 text-primary font-bold');
                 }
             });
+
+            // Remove skeleton loading effect after initialization
+            setTimeout(() => {
+                $dropdown.addClass('skeleton-loading-ready').removeClass('skeleton-loading');
+            }, 100);
         });
 
         // Close when clicking outside
