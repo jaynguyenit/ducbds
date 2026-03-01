@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Reset Form without reloading
         jQuery('.reset-search-form').on('click', function () {
-            const $form = jQuery('#bds-search-form');
+            const $form = jQuery(this).closest('form');
 
             // Clear inputs
             $form.find('input[type="text"], input[type="number"], input[type="hidden"]').val('');
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Reset Select2
             if (jQuery.fn.select2) {
-                $form.find('.select2-multi').val(null).trigger('change');
+                $form.find('.select2-multi').val(null).trigger('change.select2');
             }
 
             // Reset Price Dropdown Label

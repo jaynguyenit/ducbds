@@ -205,8 +205,9 @@ if ($is_compact) {
                             </div>
                         </div>
 
-                        <div class="col-span-1">
-                            <button type="submit" class="w-full h-[48px] bg-primary hover:bg-black text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm ngay</button>
+                        <div class="col-span-1 flex gap-2">
+                            <button type="button" class="reset-search-form h-[48px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap">Xóa lọc</button>
+                            <button type="submit" class="flex-1 h-[48px] bg-primary hover:bg-black text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm ngay</button>
                         </div>
                     </div>
                 </div>
@@ -310,7 +311,7 @@ if ($is_compact) {
 
                 <!-- Footer (Fixed Bottom Actions) -->
                 <div class="flex-shrink-0 bg-white border-t border-gray-100 px-5 py-4 grid grid-cols-2 gap-3 shadow-[0_-4px_10px_rgba(0,0,0,0.03)] pb-[calc(1rem+env(safe-area-inset-bottom))]">
-                    <button type="button" class="reset-search-form flex items-center justify-center bg-gray-50 text-gray-700 font-bold py-3.5 rounded-xl text-sm transition hover:bg-100">
+                    <button type="button" class="reset-search-form flex items-center justify-center bg-gray-50 text-gray-700 font-bold py-3.5 rounded-xl text-sm transition hover:bg-gray-100">
                         Xoá lọc
                     </button>
                     <button type="submit" class="bg-primary text-white font-bold py-3.5 rounded-xl text-sm transition hover:bg-black shadow-lg shadow-primary/20">
@@ -435,8 +436,9 @@ if ($is_compact) {
                     </div>
                 </div>
 
-                <div class="col-span-2 md:col-span-1">
-                    <button type="submit" class="w-full bg-primary hover:bg-black text-white font-bold py-3 md:py-3.5 rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm kiếm ngay</button>
+                <div class="col-span-2 md:col-span-1 flex gap-2">
+                    <button type="button" class="reset-search-form py-3 md:py-3.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap">Xóa lọc</button>
+                    <button type="submit" class="flex-1 bg-primary hover:bg-black text-white font-bold py-3 md:py-3.5 rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm kiếm ngay</button>
                 </div>
             </div>
         </div>
