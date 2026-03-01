@@ -6,10 +6,12 @@
  */
 
 // Helper function to get terms for select options using transients
-$get_search_terms = function($taxonomy, $label) {
+$get_search_terms = function($taxonomy, $label, $show_empty = true) {
     $terms = duc_bds_get_cached_terms($taxonomy);
     
-    echo '<option value="">' . esc_html($label) . '</option>';
+    if ($show_empty) {
+        echo '<option value="">' . esc_html($label) . '</option>';
+    }
     
     // Get current terms if on a taxonomy page
     $current_term_slugs = array();
@@ -161,8 +163,8 @@ if ($is_compact) {
                         foreach ($compact_filters as $tax => $label) : 
                         ?>
                             <div class="relative group">
-                                <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-gray-50/50">
-                                    <?php $get_search_terms($tax, $label); ?>
+                                <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full border border-gray-100 rounded-xl pl-3 pr-8 py-3 text-base xl:text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer bg-gray-50/50">
+                                    <?php $get_search_terms($tax, $label, false); ?>
                                 </select>
                                 <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
@@ -194,9 +196,9 @@ if ($is_compact) {
                                 <div class="border-t border-gray-50 px-4 py-3 bg-gray-50/50 mt-1">
                                     <p class="text-[11px] font-bold text-gray-400 uppercase mb-2">Tùy chỉnh (Tỷ)</p>
                                     <div class="flex items-center gap-2">
-                                        <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-xs outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
+                                        <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-base md:text-xs outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
                                         <span class="text-gray-400">-</span>
-                                        <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-xs outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
+                                        <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-base md:text-xs outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
                                     </div>
                                     <button type="button" class="apply-custom-price w-full mt-2 bg-primary text-white text-[11px] font-bold py-1.5 rounded-lg hover:bg-black transition">Áp dụng</button>
                                 </div>
@@ -240,7 +242,7 @@ if ($is_compact) {
                             <div class="relative">
                                 <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
                                        placeholder="Nhập tiêu đề hoặc mã BĐS..." 
-                                       class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 focus:border-primary focus:bg-white outline-none transition shadow-sm">
+                                       class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 text-base focus:border-primary focus:bg-white outline-none transition shadow-sm">
                                 <svg class="w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                             </div>
                         </div>
@@ -262,8 +264,8 @@ if ($is_compact) {
                                 <div class="space-y-2">
                                     <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider"><?php echo $label; ?></label>
                                     <div class="relative">
-                                        <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full bg-gray-50 border rounded-xl pl-3 pr-8 py-3 text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm <?php echo $has_val ? 'border-primary ring-1 ring-primary/10 bg-white' : 'border-gray-100'; ?>">
-                                            <?php $get_search_terms($tax, 'Tất cả'); ?>
+                                        <select name="<?php echo esc_attr($tax); ?>[]" multiple="multiple" data-placeholder="<?php echo $label; ?>" class="select2-multi appearance-none w-full bg-gray-50 border rounded-xl pl-3 pr-8 py-3 text-base font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm <?php echo $has_val ? 'border-primary ring-1 ring-primary/10 bg-white' : 'border-gray-100'; ?>">
+                                            <?php $get_search_terms($tax, $label, false); ?>
                                         </select>
                                         <svg class="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                                     </div>
@@ -294,10 +296,10 @@ if ($is_compact) {
                                         <div class="border-t border-gray-50 px-4 py-4 bg-gray-50/50 mt-1">
                                             <p class="text-[11px] font-bold text-gray-400 uppercase mb-3">Tùy chỉnh (Tỷ)</p>
                                             <div class="grid grid-cols-2 gap-2 mb-3">
-                                                <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
-                                                <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
+                                                <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-base outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
+                                                <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-base outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
                                             </div>
-                                            <button type="button" class="apply-custom-price w-full bg-primary text-white text-sm font-bold py-2.5 rounded-lg hover:bg-black transition">Áp dụng</button>
+                                            <button type="button" class="apply-custom-price w-full bg-primary text-white text-base font-bold py-2.5 rounded-lg hover:bg-black transition">Áp dụng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -308,9 +310,9 @@ if ($is_compact) {
 
                 <!-- Footer (Fixed Bottom Actions) -->
                 <div class="flex-shrink-0 bg-white border-t border-gray-100 px-5 py-4 grid grid-cols-2 gap-3 shadow-[0_-4px_10px_rgba(0,0,0,0.03)] pb-[calc(1rem+env(safe-area-inset-bottom))]">
-                    <a href="<?php echo get_post_type_archive_link('bds'); ?>" class="flex items-center justify-center bg-gray-50 text-gray-700 font-bold py-3.5 rounded-xl text-sm transition hover:bg-100">
+                    <button type="button" class="reset-search-form flex items-center justify-center bg-gray-50 text-gray-700 font-bold py-3.5 rounded-xl text-sm transition hover:bg-100">
                         Xoá lọc
-                    </a>
+                    </button>
                     <button type="submit" class="bg-primary text-white font-bold py-3.5 rounded-xl text-sm transition hover:bg-black shadow-lg shadow-primary/20">
                         Áp dụng
                     </button>
@@ -328,7 +330,7 @@ if ($is_compact) {
             <div class="relative">
                 <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
                        placeholder="Nhập tiêu đề hoặc mã BĐS..." 
-                       class="w-full border border-gray-200 rounded-xl px-4 py-3.5 focus:border-primary focus:bg-white outline-none transition shadow-sm">
+                       class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base focus:border-primary focus:bg-white outline-none transition shadow-sm">
                 <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 </div>
@@ -386,20 +388,19 @@ if ($is_compact) {
 
             <!-- Grid Selects -->
             <div class="<?php echo $is_sidebar ? 'space-y-4' : 'grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4'; ?>">
-                <div class="relative group">
-                    <select name="loai-bds[]" multiple="multiple" data-placeholder="Loại hình BĐS" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-bds', 'Loại hình BĐS'); ?></select>
+                    <select name="loai-bds[]" multiple="multiple" data-placeholder="Loại hình BĐS" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('loai-bds', 'Loại hình BĐS', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 <div class="relative group">
-                    <select name="phuong-xa[]" multiple="multiple" data-placeholder="Khu vực" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('phuong-xa', 'Khu vực'); ?></select>
+                    <select name="phuong-xa[]" multiple="multiple" data-placeholder="Khu vực" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('phuong-xa', 'Khu vực', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 <div class="relative group">
-                    <select name="huong-nha[]" multiple="multiple" data-placeholder="Hướng nhà" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('huong-nha', 'Hướng nhà'); ?></select>
+                    <select name="huong-nha[]" multiple="multiple" data-placeholder="Hướng nhà" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('huong-nha', 'Hướng nhà', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 <div class="relative group">
-                    <select name="khu-dan-cu[]" multiple="multiple" data-placeholder="Khu dân cư" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-[13px] md:text-sm font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('khu-dan-cu', 'Khu dân cư'); ?></select>
+                    <select name="khu-dan-cu[]" multiple="multiple" data-placeholder="Khu dân cư" class="select2-multi appearance-none w-full border border-gray-200 rounded-xl pl-3 pr-8 py-3 text-base md:text-[13px] font-medium focus:outline-none focus:border-primary focus:bg-white transition cursor-pointer shadow-sm"><?php $get_search_terms('khu-dan-cu', 'Khu dân cư', false); ?></select>
                     <svg class="w-4 h-4 absolute right-2.5 top-6 -translate-y-1/2 text-gray-400 group-hover:text-primary transition pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </div>
 
@@ -425,8 +426,8 @@ if ($is_compact) {
                         <div class="border-t border-gray-50 px-4 py-4 bg-gray-50/50 mt-1">
                             <p class="text-[11px] font-bold text-gray-400 uppercase mb-3">Tùy chỉnh (Tỷ)</p>
                             <div class="grid grid-cols-2 gap-2 mb-3">
-                                <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
-                                <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
+                                <input type="number" placeholder="Từ" class="min-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-base outline-none focus:border-primary" value="<?php echo isset($_GET['gia_min']) ? esc_attr($_GET['gia_min']) : ''; ?>">
+                                <input type="number" placeholder="Đến" class="max-input w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-base outline-none focus:border-primary" value="<?php echo isset($_GET['gia_max']) ? esc_attr($_GET['gia_max']) : ''; ?>">
                             </div>
                             <button type="button" class="apply-custom-price w-full bg-primary text-white text-sm font-bold py-2.5 rounded-lg hover:bg-black transition">Áp dụng</button>
                         </div>

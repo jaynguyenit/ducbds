@@ -95,13 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         placeholder: placeholderText,
                         allowClear: false,
                         width: '100%',
-                        closeOnSelect: false,
-                        templateResult: function (data) {
-                            return data.text;
-                        },
-                        templateSelection: function (data) {
-                            return data.text;
-                        }
+                        closeOnSelect: false
                     });
 
                     // Fix placeholder visibility on initial load and after selection
@@ -189,6 +183,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         color: #9ca3af !important;
                         text-align: left !important;
                         opacity: 1 !important;
+                    }
+
+                    /* Prevent iOS Zoom on focus by using 16px font-size */
+                    @media (max-width: 1023px) {
+                        .select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+                            font-size: 16px !important;
+                        }
                     }
                     
                     /* Selected Tags (Choices) */
@@ -452,6 +453,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 const allDisabled = searchForm.querySelectorAll('[disabled]');
                 allDisabled.forEach(input => input.disabled = false);
             }, 100);
+        });
+
+        // Reset Form without reloading
+        jQuery('.reset-search-form').on('click', function () {
+            const $form = jQuery('#bds-search-form');
+
+            // Clear inputs
+            $form.find('input[type="text"], input[type="number"], input[type="hidden"]').val('');
+            $form.find('input[type="checkbox"]').prop('checked', false);
+
+            // Reset Select2
+            if (jQuery.fn.select2) {
+                $form.find('.select2-multi').val(null).trigger('change');
+            }
+
+            // Reset Price Dropdown Label
+            const $priceLabels = $form.find('.price-label');
+            $priceLabels.text('Khoảng giá').css('color', '#9FA6B2');
+
+            // Reset Price Dropdown Active Classes
+            $form.find('.price-opt').removeClass('bg-primary/10 text-primary font-bold');
         });
     }
 
