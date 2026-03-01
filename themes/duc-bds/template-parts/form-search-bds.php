@@ -49,7 +49,7 @@ if ($is_compact) {
     if ($only_drawer) {
         $form_classes = 'md:hidden'; // Completely hide the form container on desktop
     } else {
-        $form_classes = 'xl:bg-white xl:border xl:border-gray-100 xl:rounded-2xl xl:py-2 xl:px-4 mb-0 xl:mb-8 xl:sticky xl:top-[80px] z-30 xl:shadow-sm mx-auto max-w-7xl';
+        $form_classes = 'xl:bg-white xl:border xl:border-gray-100 xl:rounded-2xl xl:py-2 xl:px-4 mb-0 xl:mb-8 xl:shadow-sm mx-auto max-w-7xl';
     }
 } elseif ($is_sidebar) {
     $form_classes = 'space-y-4 [&_select]:border [&_select]:border-gray-300 [&_select]:rounded-xl [&_select]:px-4 [&_select]:py-3 [&_select]:bg-white';
