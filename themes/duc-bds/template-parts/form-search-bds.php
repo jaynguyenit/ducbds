@@ -97,15 +97,51 @@ if ($is_compact) {
                 <div class="py-4">
                     <p class="text-xl md:text-2xl font-bold text-gray-900 mb-6">Tìm kiếm Bất Động Sản</p>
                     <div class="space-y-6">
-                        <!-- Keyword search -->
-                        <div class="relative">
-                            <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
-                                   placeholder="Nhập tiêu đề hoặc mã BĐS..." 
-                                   class="w-full border border-gray-100 rounded-xl px-4 py-3 focus:border-primary focus:bg-white outline-none transition bg-gray-50/50">
-                            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        <!-- Keyword search & Filter Toggle -->
+                        <div class="flex items-center gap-3">
+                            <div class="relative flex-1">
+                                <input type="text" name="s" value="<?php echo get_search_query(); ?>" 
+                                       placeholder="Nhập tiêu đề hoặc mã BĐS..." 
+                                       class="w-full border border-gray-100 rounded-xl px-4 py-3 focus:border-primary focus:bg-white outline-none transition bg-gray-50/50">
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                </div>
                             </div>
+                            
+                            <?php 
+                            // Count active filters (excluding 'post_type', 's', 'paged')
+                            $active_filter_count = 0;
+                            $exclude_params = array('post_type', 's', 'paged');
+                            foreach($_GET as $key => $value) {
+                                if(!in_array($key, $exclude_params) && !empty($value)) {
+                                    if(is_array($value)) {
+                                        $active_filter_count += count(array_filter($value));
+                                    } else {
+                                        $active_filter_count++;
+                                    }
+                                }
+                            }
+                            ?>
+
+                            <!-- Filter Toggle Button -->
+                            <button type="button" class="toggle-advanced-filters flex items-center gap-2 px-6 h-[48px] bg-white border <?php echo $active_filter_count > 0 ? 'border-primary' : 'border-gray-100'; ?> rounded-xl text-sm font-bold text-gray-700 hover:border-primary hover:text-primary transition shadow-sm whitespace-nowrap group relative">
+                                <svg class="w-4 h-4 <?php echo $active_filter_count > 0 ? 'text-primary' : 'text-gray-400'; ?> group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                                <span>Bộ lọc nâng cao</span>
+                                <?php if($active_filter_count > 0): ?>
+                                    <span class="flex items-center justify-center w-5 h-5 bg-primary text-white text-[10px] rounded-full shadow-lg shadow-primary/30">
+                                        <?php echo $active_filter_count; ?>
+                                    </span>
+                                <?php endif; ?>
+                                <svg class="w-3.5 h-3.5 ml-1 transition-transform arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+
+                            <button type="submit" class="px-8 h-[48px] bg-primary hover:bg-black text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98] whitespace-nowrap">
+                                Tìm ngay
+                            </button>
                         </div>
+
+                        <!-- Advanced Filters Section (Collapsible) -->
+                        <div class="advanced-filters-content hidden border-t border-gray-50 pt-6 mt-6 animate-fade-in">
 
                         <!-- Filter Links (Hinh thuc & Loai hinh) -->
                         <div class="flex flex-wrap gap-x-2 gap-y-4 items-center">
@@ -154,7 +190,7 @@ if ($is_compact) {
                         </div>
 
                         <!-- Grid Filter Selects -->
-                        <div class="grid grid-cols-3 gap-4">
+                        <div class="grid grid-cols-3 gap-4 mt-6">
                             <?php 
                             $compact_filters = array(
                                 'loai-bds'   => 'Loại hình BĐS',
@@ -207,11 +243,11 @@ if ($is_compact) {
                             </div>
                         </div>
 
-                        <div class="col-span-1 flex gap-2">
-                            <button type="button" class="reset-search-form h-[48px] px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap">Xóa lọc</button>
-                            <button type="submit" class="flex-1 h-[48px] bg-primary hover:bg-black text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 active:scale-[0.98]">Tìm ngay</button>
+                            <div class="col-span-1 flex gap-2">
+                                <button type="button" class="reset-search-form h-[48px] px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition active:scale-[0.98] whitespace-nowrap flex-1">Xóa lọc</button>
+                            </div>
                         </div>
-                    </div>
+                    </div> <!-- End .advanced-filters-content -->
                 </div>
             </div>
         </div>

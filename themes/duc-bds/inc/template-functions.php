@@ -91,6 +91,16 @@ function duc_bds_fouc_fix() {
         .skeleton-loading-ready {
             transition: opacity 0.4s ease-in-out !important;
         }
+
+        /* Generic Fade In Animation */
+        .animate-fade-in {
+            animation: duc-bds-fade-in 0.4s ease-out forwards;
+        }
+
+        @keyframes duc-bds-fade-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
     <?php
 }

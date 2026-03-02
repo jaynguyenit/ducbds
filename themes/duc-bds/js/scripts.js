@@ -83,6 +83,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Generic synchronization for all search inputs in the same form
     const searchForm = document.getElementById('bds-search-form');
     if (searchForm) {
+        // Toggle Advanced Filters on Desktop
+        const toggleBtn = searchForm.querySelector('.toggle-advanced-filters');
+        const advancedContent = searchForm.querySelector('.advanced-filters-content');
+
+        if (toggleBtn && advancedContent) {
+            toggleBtn.addEventListener('click', function () {
+                const isHidden = advancedContent.classList.contains('hidden');
+                const arrow = this.querySelector('.arrow-icon');
+
+                if (isHidden) {
+                    advancedContent.classList.remove('hidden');
+                    if (arrow) arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    advancedContent.classList.add('hidden');
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+
         // Initialize Select2 for multi-select dropdowns
         const initSelect2 = () => {
             const $selects = jQuery('.select2-multi');
