@@ -57,7 +57,7 @@ while ( have_posts() ) :
 					<div class="bg-white rounded-2xl p-3 md:p-4 shadow-sm overflow-hidden relative border border-gray-100/50">
 						<?php if ( $hinh_anh ) : ?>
 							<!-- Main Swiper -->
-							<div class="swiper bds-main-slider aspect-[16/10] md:aspect-[16/10] min-h-[250px] md:min-h-[400px] rounded-xl overflow-hidden mb-2 md:mb-4 cursor-zoom-in group shadow-inner">
+							<div class="swiper bds-main-slider aspect-[16/10] md:aspect-[16/10] min-h-[250px] md:min-h-[400px] rounded-xl overflow-hidden mb-1 md:mb-3 cursor-zoom-in group shadow-inner">
 								<div class="swiper-wrapper">
 									<?php foreach ( $hinh_anh as $img ) : ?>
 										<div class="swiper-slide h-full">
@@ -90,10 +90,24 @@ while ( have_posts() ) :
                                     max-width: 100% !important;
                                     box-sizing: border-box !important;
                                 }
+                                /* Prevent thumbnail layout shift on load */
+                                .bds-thumb-slider {
+                                    overflow: hidden;
+                                }
                                 .bds-thumb-slider .swiper-slide {
                                     opacity: 0.5;
                                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                                     border: 2px solid transparent;
+                                    border-radius: 0.75rem;
+                                    overflow: hidden;
+                                    flex-shrink: 0;
+                                    width: auto;
+                                    aspect-ratio: 1 / 1;
+                                }
+                                .bds-thumb-slider .swiper-slide img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
                                 }
                                 .bds-thumb-slider .swiper-slide-thumb-active {
                                     opacity: 1;
@@ -111,7 +125,7 @@ while ( have_posts() ) :
                             </style>
 
 							<!-- Thumbs Swiper -->
-							<div class="swiper bds-thumb-slider h-16 sm:h-20 lg:h-24 mt-3 mb-1 px-1">
+							<div class="swiper bds-thumb-slider h-14 sm:h-20 lg:h-24 mt-1 md:mt-3 mb-1">
 								<div class="swiper-wrapper">
 									<?php foreach ( $hinh_anh as $img ) : ?>
 										<div class="swiper-slide rounded-xl overflow-hidden cursor-pointer">
