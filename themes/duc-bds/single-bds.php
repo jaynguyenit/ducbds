@@ -363,14 +363,14 @@ while ( have_posts() ) :
 		</button>
 		
 		<!-- Modal Swiper -->
-		<div class="swiper modal-swiper w-full h-full p-4 md:p-0">
+		<div class="swiper modal-swiper w-full h-full p-4 md:p-16 flex flex-col justify-center">
 			<div class="swiper-wrapper">
 				<?php if ( $hinh_anh ) : ?>
 					<?php foreach ( $hinh_anh as $img ) : ?>
-						<div class="swiper-slide flex items-center justify-center h-full w-full">
+						<div class="swiper-slide !flex items-center justify-center">
 							<img src="<?php echo esc_url( $img['url'] ); ?>" 
 								 alt="<?php echo esc_attr( $img['alt'] ); ?>" 
-								 class="max-w-full max-h-full object-contain select-none shadow-2xl mx-auto">
+								 class="max-w-full max-h-[85vh] object-contain select-none shadow-2xl rounded-lg">
 						</div>
 					<?php endforeach; ?>
 				<?php endif; ?>
