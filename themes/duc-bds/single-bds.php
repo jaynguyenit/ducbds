@@ -54,10 +54,10 @@ while ( have_posts() ) :
                     </div>
 
 					<!-- GALLERY SLIDER -->
-					<div class="bg-white rounded-2xl p-2 md:p-4 shadow-sm overflow-hidden relative">
+					<div class="bg-white rounded-2xl p-3 md:p-4 shadow-sm overflow-hidden relative border border-gray-100/50">
 						<?php if ( $hinh_anh ) : ?>
 							<!-- Main Swiper -->
-							<div class="swiper bds-main-slider aspect-[16/10] md:aspect-[16/10] min-h-[250px] md:min-h-[400px] rounded-xl overflow-hidden mb-2 md:mb-4 cursor-zoom-in group">
+							<div class="swiper bds-main-slider aspect-[16/10] md:aspect-[16/10] min-h-[250px] md:min-h-[400px] rounded-xl overflow-hidden mb-2 md:mb-4 cursor-zoom-in group shadow-inner">
 								<div class="swiper-wrapper">
 									<?php foreach ( $hinh_anh as $img ) : ?>
 										<div class="swiper-slide h-full">
@@ -73,7 +73,7 @@ while ( have_posts() ) :
 									<?php endforeach; ?>
 								</div>
 								<!-- Fraction Pagination (Mobile & App Style) -->
-								<div class="absolute bottom-4 right-4 z-10 bg-black/50 backdrop-blur-md text-white text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full pointer-events-none custom-fraction">
+								<div class="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-10 bg-black/60 backdrop-blur-md text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full pointer-events-none custom-fraction shadow-lg border border-white/10">
 									<span class="current">1</span> / <span class="total"><?php echo count($hinh_anh); ?></span>
 								</div>
 
@@ -84,22 +84,23 @@ while ( have_posts() ) :
 
                             <style>
                                 .bds-thumb-slider .swiper-slide {
-                                    opacity: 0.4;
-                                    transition: all 0.3s ease;
+                                    opacity: 0.5;
+                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                                     border: 2px solid transparent;
                                 }
                                 .bds-thumb-slider .swiper-slide-thumb-active {
                                     opacity: 1;
                                     border-color: #eab308; /* primary color */
-                                    transform: scale(1.02);
+                                    transform: scale(1.05);
+                                    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
                                 }
                             </style>
 
 							<!-- Thumbs Swiper -->
-							<div class="swiper bds-thumb-slider h-16 sm:h-20 lg:h-24 mt-2">
+							<div class="swiper bds-thumb-slider h-16 sm:h-20 lg:h-24 mt-3 mb-1 px-1">
 								<div class="swiper-wrapper">
 									<?php foreach ( $hinh_anh as $img ) : ?>
-										<div class="swiper-slide rounded-lg overflow-hidden cursor-pointer">
+										<div class="swiper-slide rounded-xl overflow-hidden cursor-pointer">
 											<img src="<?php echo esc_url( $img['sizes']['thumbnail'] ); ?>" 
 												 alt="<?php echo esc_attr( $img['alt'] ); ?>" 
 												 class="w-full h-full object-cover">
