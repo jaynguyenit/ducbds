@@ -67,13 +67,13 @@ while ( have_posts() ) :
 											?>
 											<img src="<?php echo esc_url( $img_src ); ?>" 
 												 alt="<?php echo esc_attr( $img_alt ); ?>" 
-												 class="w-full h-full object-cover"
+												 class="w-full h-full object-cover rounded-xl"
 												 data-full="<?php echo esc_url( $img_src ); ?>">
 										</div>
 									<?php endforeach; ?>
 								</div>
-								<!-- Fraction Pagination (Mobile & App Style) -->
-								<div class="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-10 bg-black/60 backdrop-blur-md text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full pointer-events-none custom-fraction shadow-lg border border-white/10">
+								<!-- Fraction Pagination (Top-right overlay) -->
+								<div class="absolute top-3 right-3 md:top-4 md:right-4 z-10 bg-black/60 backdrop-blur-md text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full pointer-events-none custom-fraction shadow-lg border border-white/10">
 									<span class="current">1</span> / <span class="total"><?php echo count($hinh_anh); ?></span>
 								</div>
 
