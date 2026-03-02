@@ -78,11 +78,18 @@ while ( have_posts() ) :
 								</div>
 
 								<!-- Navigation buttons (Desktop only) -->
-								<div class="hidden md:flex swiper-button-next !text-white !bg-black/20 hover:!bg-black/40 !w-8 !h-8 !rounded-full after:!text-[12px] opacity-0 group-hover:opacity-100 transition"></div>
-								<div class="hidden md:flex swiper-button-prev !text-white !bg-black/20 hover:!bg-black/40 !w-8 !h-8 !rounded-full after:!text-[12px] opacity-0 group-hover:opacity-100 transition"></div>
+								<div class="hidden md:flex main-slider-next swiper-button-next !text-white !bg-black/20 hover:!bg-black/40 !w-8 !h-8 !rounded-full after:!text-[12px] opacity-0 group-hover:opacity-100 transition"></div>
+								<div class="hidden md:flex main-slider-prev swiper-button-prev !text-white !bg-black/20 hover:!bg-black/40 !w-8 !h-8 !rounded-full after:!text-[12px] opacity-0 group-hover:opacity-100 transition"></div>
 							</div>
 
                             <style>
+                                /* Fix slider overflow on mobile */
+                                .bds-main-slider,
+                                .bds-main-slider .swiper-wrapper,
+                                .bds-main-slider .swiper-slide {
+                                    max-width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
                                 .bds-thumb-slider .swiper-slide {
                                     opacity: 0.5;
                                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,6 +100,13 @@ while ( have_posts() ) :
                                     border-color: #eab308; /* primary color */
                                     transform: scale(1.05);
                                     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                                }
+                                /* Lightbox zoom cursor */
+                                .modal-swiper .swiper-slide {
+                                    cursor: zoom-in;
+                                }
+                                .modal-swiper .swiper-slide.swiper-slide-zoomed {
+                                    cursor: grab;
                                 }
                             </style>
 
@@ -368,16 +382,18 @@ while ( have_posts() ) :
 				<?php if ( $hinh_anh ) : ?>
 					<?php foreach ( $hinh_anh as $img ) : ?>
 						<div class="swiper-slide !flex items-center justify-center">
-							<img src="<?php echo esc_url( $img['url'] ); ?>" 
-								 alt="<?php echo esc_attr( $img['alt'] ); ?>" 
-								 class="max-w-full max-h-[85vh] object-contain select-none shadow-2xl rounded-lg">
+							<div class="swiper-zoom-container">
+								<img src="<?php echo esc_url( $img['url'] ); ?>" 
+									 alt="<?php echo esc_attr( $img['alt'] ); ?>" 
+									 class="max-w-full max-h-[85vh] object-contain select-none shadow-2xl rounded-lg">
+							</div>
 						</div>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
 			<!-- Navigation arrows -->
-			<div class="swiper-button-next !text-white !w-12 !h-12 after:!text-2xl"></div>
-			<div class="swiper-button-prev !text-white !w-12 !h-12 after:!text-2xl"></div>
+			<div class="modal-next swiper-button-next !text-white !w-12 !h-12 after:!text-2xl"></div>
+			<div class="modal-prev swiper-button-prev !text-white !w-12 !h-12 after:!text-2xl"></div>
 		</div>
 	</div>
 
@@ -415,8 +431,8 @@ while ( have_posts() ) :
 				loop: true,
 				speed: 600,
 				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
+					nextEl: '.main-slider-next',
+					prevEl: '.main-slider-prev',
 				},
 				thumbs: thumbSwiper ? { swiper: thumbSwiper } : undefined,
 				on: {
@@ -439,8 +455,8 @@ while ( have_posts() ) :
 					minRatio: 1,
 				},
 				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
+					nextEl: '.modal-next',
+					prevEl: '.modal-prev',
 				},
 				keyboard: {
 					enabled: true,
