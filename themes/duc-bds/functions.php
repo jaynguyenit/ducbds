@@ -373,13 +373,18 @@ function duc_bds_extend_search( $query ) {
                 $terms = array_filter($terms);
 
                 if (!empty($terms)) {
-                    $tax_query[] = array(
-                        'taxonomy' => $taxonomy,
-                        'field'    => 'slug',
-                        'terms'    => $terms,
-                        'operator' => 'IN',
-                    );
-                    $has_tax = true;
+                    // Special handling for huong-nha to support hybrid search
+                    if ($taxonomy === 'huong-nha') {
+                        $query->set('_hybrid_huong_nha', $terms);
+                    } else {
+                        $tax_query[] = array(
+                            'taxonomy' => $taxonomy,
+                            'field'    => 'slug',
+                            'terms'    => $terms,
+                            'operator' => 'IN',
+                        );
+                        $has_tax = true;
+                    }
                 }
             }
         }
@@ -504,6 +509,37 @@ function duc_bds_search_where( $where, $wp_query ) {
             }
         }
     }
+
+    // Hybrid search for huong-nha
+    $hybrid_huong_nha = $wp_query->get('_hybrid_huong_nha');
+    if ( ! empty($hybrid_huong_nha) ) {
+        $conditions = array();
+        foreach ( $hybrid_huong_nha as $slug ) {
+            $term_name = str_replace('-', ' ', $slug);
+            // Case-insensitive check for common Vietnamese directions
+            $keyword = esc_sql($wpdb->esc_like($term_name));
+            
+            $sub_conditions = array();
+            
+            // 1. Match by Taxonomy (Slug)
+            $sub_conditions[] = "{$wpdb->posts}.ID IN (
+                SELECT object_id FROM {$wpdb->term_relationships} tr 
+                JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id 
+                JOIN {$wpdb->terms} t ON tt.term_id = t.term_id 
+                WHERE t.slug = '" . esc_sql($slug) . "' AND tt.taxonomy = 'huong-nha'
+            )";
+            
+            // 2. Match by Content Keyword (e.g., "Hướng: Bắc")
+            $sub_conditions[] = "{$wpdb->posts}.post_content LIKE '%" . $keyword . "%'";
+            
+            $conditions[] = "(" . implode(" OR ", $sub_conditions) . ")";
+        }
+        
+        if ( ! empty($conditions) ) {
+            $where .= " AND (" . implode(" OR ", $conditions) . ")";
+        }
+    }
+
     return $where;
 }
 add_filter( 'posts_where', 'duc_bds_search_where', 10, 2 );

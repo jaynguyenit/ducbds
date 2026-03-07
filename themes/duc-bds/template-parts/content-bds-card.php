@@ -10,6 +10,7 @@ $gia = get_field('gia', $post_id);
 $thumb_url = duc_bds_get_thumbnail_url($post_id);
 $phuong_xa = get_the_terms($post_id, 'phuong-xa');
 $hinh_thuc = get_the_terms($post_id, 'hinh-thuc-bds');
+$tinh_trang = get_the_terms($post_id, 'tinh-trang');
 
 // Format giá
 $gia_display = 'Liên hệ';
@@ -33,11 +34,17 @@ if($gia) {
 				loading="lazy"
 			>
 		</a>
-
 		<!-- Badge Hình thức -->
 		<?php if($hinh_thuc && !is_wp_error($hinh_thuc)): ?>
 			<span class="absolute top-3 left-3 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
 				<?php echo esc_html($hinh_thuc[0]->name); ?>
+			</span>
+		<?php endif; ?>
+		
+		<!-- Badge Tình trạng -->
+		<?php if($tinh_trang && !is_wp_error($tinh_trang)): ?>
+			<span class="absolute top-3 right-3 bg-secondary/90 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm border border-white/20">
+				<?php echo esc_html($tinh_trang[0]->name); ?>
 			</span>
 		<?php endif; ?>
 	</div>
