@@ -40,13 +40,6 @@ if($gia) {
 				<?php echo esc_html($hinh_thuc[0]->name); ?>
 			</span>
 		<?php endif; ?>
-		
-		<!-- Badge Tình trạng -->
-		<?php if($tinh_trang && !is_wp_error($tinh_trang)): ?>
-			<span class="absolute top-3 right-3 bg-secondary/90 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm border border-white/20">
-				<?php echo esc_html($tinh_trang[0]->name); ?>
-			</span>
-		<?php endif; ?>
 	</div>
 
 	<!-- Content -->
@@ -58,9 +51,16 @@ if($gia) {
 				</a>
 			</h3>
 
-			<p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
-				<span>📍</span> <?php echo ($phuong_xa && !is_wp_error($phuong_xa)) ? esc_html($phuong_xa[0]->name) . ', TP.HCM' : 'TP.HCM'; ?>
-			</p>
+			<div class="flex items-center justify-between mt-2 gap-2">
+				<p class="text-xs text-gray-500 flex items-center gap-1 mb-0">
+					<span>📍</span> <?php echo ($phuong_xa && !is_wp_error($phuong_xa)) ? esc_html($phuong_xa[0]->name) . ', TP.HCM' : 'TP.HCM'; ?>
+				</p>
+				<?php if($tinh_trang && !is_wp_error($tinh_trang)): ?>
+					<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-red-50 text-red-600 border border-red-100/50 uppercase tracking-tight whitespace-nowrap">
+						<?php echo esc_html($tinh_trang[0]->name); ?>
+					</span>
+				<?php endif; ?>
+			</div>
 		</div>
 
 		<div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
