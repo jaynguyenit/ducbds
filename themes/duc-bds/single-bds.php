@@ -23,6 +23,7 @@ while ( have_posts() ) :
 	$huong_nha  = get_the_terms( get_the_ID(), 'huong-nha' );
 	$loai_bds   = get_the_terms( get_the_ID(), 'loai-bds' );
 	$hinh_thuc  = get_the_terms( get_the_ID(), 'hinh-thuc-bds' );
+	$tinh_trang = get_the_terms( get_the_ID(), 'tinh-trang' );
 
 	// Format Price
 	$gia_display = 'Liên hệ';
@@ -172,7 +173,7 @@ while ( have_posts() ) :
 								</div>
 								<div class="min-w-0">
 									<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Diện tích</p>
-									<p class="text-gray-900 font-bold truncate text-[13px]"><?php echo ( $rong && $dai ) ? ( $rong * $dai ) . ' m²' : 'Đang cập nhật'; ?></p>
+									<p class="text-gray-900 font-bold text-[13px]"><?php echo ( $rong && $dai ) ? ( $rong * $dai ) . ' m²' : 'Đang cập nhật'; ?></p>
 								</div>
 							</div>
 
@@ -183,7 +184,7 @@ while ( have_posts() ) :
 									</div>
 									<div class="min-w-0">
 										<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Phòng ngủ</p>
-										<p class="text-gray-900 font-bold truncate text-[13px]"><?php echo esc_html( $so_pn ); ?> Phòng</p>
+										<p class="text-gray-900 font-bold text-[13px]"><?php echo esc_html( $so_pn ); ?> Phòng</p>
 									</div>
 								</div>
 							<?php endif; ?>
@@ -195,7 +196,7 @@ while ( have_posts() ) :
 									</div>
 									<div class="min-w-0">
 										<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Vệ sinh</p>
-										<p class="text-gray-900 font-bold truncate text-[13px]"><?php echo esc_html( $so_pvs ); ?> Phòng</p>
+										<p class="text-gray-900 font-bold text-[13px]"><?php echo esc_html( $so_pvs ); ?> Phòng</p>
 									</div>
 								</div>
 							<?php endif; ?>
@@ -206,7 +207,17 @@ while ( have_posts() ) :
 								</div>
 								<div class="min-w-0">
 									<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Hướng</p>
-									<p class="text-gray-900 font-bold truncate text-[13px]"><?php echo ( $huong_nha && !is_wp_error($huong_nha) ) ? esc_html( $huong_nha[0]->name ) : 'Đang cập nhật'; ?></p>
+									<p class="text-gray-900 font-bold text-[13px]"><?php echo ( $huong_nha && !is_wp_error($huong_nha) ) ? esc_html( $huong_nha[0]->name ) : 'Đang cập nhật'; ?></p>
+								</div>
+							</div>
+
+							<div class="flex items-center gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100/50">
+								<div class="w-10 h-10 flex-shrink-0 bg-white shadow-sm rounded-xl flex items-center justify-center text-primary">
+									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+								</div>
+								<div class="min-w-0">
+									<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Tình trạng</p>
+									<p class="text-gray-900 font-bold text-[13px]"><?php echo ( $tinh_trang && !is_wp_error($tinh_trang) ) ? esc_html( $tinh_trang[0]->name ) : 'Đang cập nhật'; ?></p>
 								</div>
 							</div>
 						</div>
