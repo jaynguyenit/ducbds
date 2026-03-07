@@ -55,8 +55,17 @@ if($gia) {
 				<p class="text-xs text-gray-500 flex items-center gap-1 mb-0">
 					<span>📍</span> <?php echo ($phuong_xa && !is_wp_error($phuong_xa)) ? esc_html($phuong_xa[0]->name) . ', TP.HCM' : 'TP.HCM'; ?>
 				</p>
-				<?php if($tinh_trang && !is_wp_error($tinh_trang)): ?>
-					<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-red-50 text-red-600 border border-red-100/50 uppercase tracking-tight whitespace-nowrap">
+				<?php if($tinh_trang && !is_wp_error($tinh_trang)): 
+					$status_slug = $tinh_trang[0]->slug;
+					$status_classes = 'bg-red-50 text-red-600 border-red-100/50'; // Default: Đỏ
+					
+					if ( $status_slug === 'dang-ban' ) {
+						$status_classes = 'bg-green-50 text-green-600 border-green-100/50';
+					} elseif ( $status_slug === 'da-ban' || $status_slug === 'ngung-ban' ) {
+						$status_classes = 'bg-gray-50 text-gray-600 border-gray-100/50';
+					}
+				?>
+					<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg border uppercase tracking-tight whitespace-nowrap <?php echo esc_attr($status_classes); ?>">
 						<?php echo esc_html($tinh_trang[0]->name); ?>
 					</span>
 				<?php endif; ?>

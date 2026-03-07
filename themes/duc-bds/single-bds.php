@@ -217,7 +217,24 @@ while ( have_posts() ) :
 								</div>
 								<div class="min-w-0">
 									<p class="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Tình trạng</p>
-									<p class="text-gray-900 font-bold text-[13px]"><?php echo ( $tinh_trang && !is_wp_error($tinh_trang) ) ? esc_html( $tinh_trang[0]->name ) : 'Đang cập nhật'; ?></p>
+									<?php 
+									$status_text = 'Đang cập nhật';
+									$status_classes = 'text-gray-900';
+									
+									if ( $tinh_trang && !is_wp_error($tinh_trang) ) {
+										$status_text = $tinh_trang[0]->name;
+										$status_slug = $tinh_trang[0]->slug;
+										
+										if ( $status_slug === 'dang-ban' ) {
+											$status_classes = 'text-green-600';
+										} elseif ( $status_slug === 'da-ban' || $status_slug === 'ngung-ban' ) {
+											$status_classes = 'text-gray-500';
+										} else {
+											$status_classes = 'text-red-600';
+										}
+									}
+									?>
+									<p class="font-bold text-[13px] <?php echo esc_attr($status_classes); ?>"><?php echo esc_html($status_text); ?></p>
 								</div>
 							</div>
 						</div>
