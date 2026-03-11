@@ -457,6 +457,90 @@ function duc_bds_extend_search( $query ) {
              $query->set( 'post_type', 'bds' );
         }
     }
+    
+    /**
+     * TÁCH BIỆT LOGIC CHO ADMIN BOARD (BACKEND LIST TABLE)
+     */
+    if ( is_admin() && $query->is_main_query() ) {
+        global $typenow;
+        
+        if ( $typenow === 'bds' ) {
+            $meta_query = array( 'relation' => 'AND' );
+            $tax_query  = array( 'relation' => 'AND' );
+            $has_meta   = false;
+            $has_tax    = false;
+
+            // 1. Lọc theo Taxonomies
+            $taxonomies = array(
+                'hinh-thuc-bds',
+                'loai-bds',
+                'phuong-xa',
+                'huong-nha',
+                'khu-dan-cu'
+            );
+
+            foreach ( $taxonomies as $taxonomy ) {
+                if ( isset( $_GET[$taxonomy] ) && ! empty( $_GET[$taxonomy] ) ) {
+                    $terms = sanitize_text_field( $_GET[$taxonomy] );
+
+                    $tax_query[] = array(
+                        'taxonomy' => $taxonomy,
+                        'field'    => 'slug',
+                        'terms'    => $terms,
+                        'operator' => 'IN',
+                    );
+                    $has_tax = true;
+                }
+            }
+
+            // 2. Lọc theo Khoảng giá (Price Range)
+            if ( isset( $_GET['khoang-gia'] ) && ! empty( $_GET['khoang-gia'] ) ) {
+                $range = explode( '-', sanitize_text_field($_GET['khoang-gia']) );
+                
+                if ( count( $range ) === 2 ) {
+                    $min = intval( $range[0] );
+                    $max = intval( $range[1] );
+                    
+                    $meta_query[] = array(
+                        'key'     => 'gia',
+                        'value'   => array( $min * 1000, $max * 1000 ),
+                        'type'    => 'numeric',
+                        'compare' => 'BETWEEN',
+                    );
+                    $has_meta = true;
+                } elseif ( count( $range ) === 1 ) {
+                    // Handle cases like "500000" (Dưới 500 tỷ) or ">500000" (Trên 500 tỷ)
+                    $raw_val = $_GET['khoang-gia'];
+                    $val = intval( ltrim( $raw_val, '>' ) ) * 1000;
+                    
+                    if ( strpos( $raw_val, '>' ) !== false ) {
+                        $meta_query[] = array(
+                            'key'     => 'gia',
+                            'value'   => $val,
+                            'type'    => 'numeric',
+                            'compare' => '>',
+                        );
+                    } else {
+                        $meta_query[] = array(
+                            'key'     => 'gia',
+                            'value'   => $val,
+                            'type'    => 'numeric',
+                            'compare' => '<=',
+                        );
+                    }
+                    $has_meta = true;
+                }
+            }
+
+            // Apply queries
+            if ( $has_meta ) {
+                $query->set( 'meta_query', $meta_query );
+            }
+            if ( $has_tax ) {
+                $query->set( 'tax_query', $tax_query );
+            }
+        }
+    }
 }
 add_action( 'pre_get_posts', 'duc_bds_extend_search' );
 
@@ -465,10 +549,10 @@ add_action( 'pre_get_posts', 'duc_bds_extend_search' );
  * Join postmeta table to the search query for BDS property code
  */
 function duc_bds_search_join( $join, $wp_query ) {
-    global $wpdb;
-    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+    global $wpdb, $typenow;
+    if ( $wp_query->is_main_query() && $wp_query->is_search() ) {
         $post_type = $wp_query->get('post_type');
-        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') || (is_admin() && $typenow === 'bds') ) {
             $join .= " LEFT JOIN {$wpdb->postmeta} AS bds_meta ON {$wpdb->posts}.ID = bds_meta.post_id AND bds_meta.meta_key = 'ma_bds' ";
         }
     }
@@ -480,11 +564,11 @@ add_filter( 'posts_join', 'duc_bds_search_join', 10, 2 );
  * Modify search condition to include property code (ma_bds)
  */
 function duc_bds_search_where( $where, $wp_query ) {
-    global $wpdb;
+    global $wpdb, $typenow;
 
-    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+    if ( $wp_query->is_main_query() && $wp_query->is_search() ) {
         $post_type = $wp_query->get('post_type');
-        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') || (is_admin() && $typenow === 'bds') ) {
             $search_term = $wp_query->get('s');
             
             if ( ! empty($search_term) ) {
@@ -548,12 +632,70 @@ add_filter( 'posts_where', 'duc_bds_search_where', 10, 2 );
  * Ensure distinct results to avoid duplicates from join
  */
 function duc_bds_search_distinct( $distinct, $wp_query ) {
-    if ( ! is_admin() && $wp_query->is_main_query() && $wp_query->is_search() ) {
+    global $typenow;
+    if ( $wp_query->is_main_query() && $wp_query->is_search() ) {
         $post_type = $wp_query->get('post_type');
-        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') ) {
+        if ( $post_type === 'bds' || (isset($_GET['post_type']) && $_GET['post_type'] === 'bds') || (is_admin() && $typenow === 'bds') ) {
             return "DISTINCT";
         }
     }
     return $distinct;
 }
 add_filter( 'posts_distinct', 'duc_bds_search_distinct', 10, 2 );
+
+/**
+ * Add custom filters to BDS admin list table
+ */
+function duc_bds_admin_custom_filters() {
+    global $typenow;
+    
+    // Only apply to 'bds' post type
+    if ( $typenow === 'bds' ) {
+        
+        // 1. Taxonomy Filters
+        $taxonomies = array(
+            'hinh-thuc-bds' => 'Hình thức',
+            'loai-bds'      => 'Loại hình BĐS',
+            'phuong-xa'     => 'Khu vực',
+            'huong-nha'     => 'Hướng nhà',
+            'khu-dan-cu'    => 'Khu dân cư'
+        );
+        
+        foreach ( $taxonomies as $tax_slug => $tax_label ) {
+            $selected = isset($_GET[$tax_slug]) ? $_GET[$tax_slug] : '';
+            
+            wp_dropdown_categories(array(
+                'show_option_all' => $tax_label,
+                'taxonomy'        => $tax_slug,
+                'name'            => $tax_slug,
+                'orderby'         => 'name',
+                'selected'        => $selected,
+                'show_count'      => true,
+                'hide_empty'      => false,
+                'value_field'     => 'slug',
+            ));
+        }
+        
+        // 2. Price Range Filter
+        $price_options = array(
+            '' => 'Khoảng giá',
+            '1000-3000' => '1 - 3 tỷ',
+            '3000-5000' => '3 - 5 tỷ',
+            '5000-10000' => '5 - 10 tỷ',
+            '10000-50000' => '10 - 50 tỷ',
+            '50000-100000' => '50 - 100 tỷ',
+            '500000' => 'Dưới 500 tỷ',
+            '>500000' => 'Trên 500 tỷ'
+        );
+        
+        $selected_price = isset($_GET['khoang-gia']) ? $_GET['khoang-gia'] : '';
+        
+        echo '<select name="khoang-gia" id="khoang-gia">';
+        foreach ( $price_options as $value => $label ) {
+            $is_selected = selected( $selected_price, $value, false );
+            echo '<option value="' . esc_attr($value) . '" ' . $is_selected . '>' . esc_html($label) . '</option>';
+        }
+        echo '</select>';
+    }
+}
+add_action( 'restrict_manage_posts', 'duc_bds_admin_custom_filters' );
